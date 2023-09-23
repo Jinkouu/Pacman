@@ -22,5 +22,8 @@ public class PlayerAnimation : MonoBehaviour
             animatorController.SetTrigger("Right");
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
             animatorController.SetTrigger("Up");
+        // if(player dies somehow)
+        if (Input.GetKeyDown(KeyCode.M))
+            animatorController.SetTrigger("Death");
     }
 }
