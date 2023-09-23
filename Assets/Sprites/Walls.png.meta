@@ -123,7 +123,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 384
+        y: 128
         width: 128
         height: 128
       alignment: 0
@@ -144,7 +144,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 128
-        y: 384
+        y: 128
         width: 128
         height: 128
       alignment: 0
@@ -164,8 +164,8 @@ TextureImporter:
       name: Walls_2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 256
+        x: 256
+        y: 128
         width: 128
         height: 128
       alignment: 0
@@ -185,8 +185,8 @@ TextureImporter:
       name: Walls_3
       rect:
         serializedVersion: 2
-        x: 128
-        y: 256
+        x: 384
+        y: 128
         width: 128
         height: 128
       alignment: 0
@@ -207,7 +207,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 128
+        y: 0
         width: 128
         height: 128
       alignment: 0
@@ -228,7 +228,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 128
-        y: 128
+        y: 0
         width: 128
         height: 128
       alignment: 0
@@ -248,7 +248,7 @@ TextureImporter:
       name: Walls_6
       rect:
         serializedVersion: 2
-        x: 0
+        x: 256
         y: 0
         width: 128
         height: 128
@@ -261,6 +261,27 @@ TextureImporter:
       bones: []
       spriteID: c1a9d43af08ec7a478404daee3a4718b
       internalID: -1284760514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Walls_7
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 93b4334f07d642143ab49746cd28ebbd
+      internalID: 1390305366
       vertices: []
       indices: 
       edges: []
@@ -283,6 +304,7 @@ TextureImporter:
       Walls_4: 715238886
       Walls_5: 1489852105
       Walls_6: -1284760514
+      Walls_7: 1390305366
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
