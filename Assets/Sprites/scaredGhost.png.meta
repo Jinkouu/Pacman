@@ -123,7 +123,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 384
+        y: 128
         width: 128
         height: 128
       alignment: 0
@@ -143,8 +143,8 @@ TextureImporter:
       name: scaredGhost_1
       rect:
         serializedVersion: 2
-        x: 0
-        y: 256
+        x: 128
+        y: 128
         width: 128
         height: 128
       alignment: 0
@@ -164,7 +164,7 @@ TextureImporter:
       name: scaredGhost_2
       rect:
         serializedVersion: 2
-        x: 0
+        x: 256
         y: 128
         width: 128
         height: 128
@@ -185,8 +185,8 @@ TextureImporter:
       name: scaredGhost_3
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
+        x: 384
+        y: 128
         width: 128
         height: 128
       alignment: 0
@@ -198,6 +198,90 @@ TextureImporter:
       bones: []
       spriteID: a82d985a92e87d946be0c3abe1f9b974
       internalID: 1784495067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scaredGhost_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a835f8e5afcb4f428946ea6bf35a665
+      internalID: -1923336524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scaredGhost_5
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3556845c7fa299f44b1dd8234ba7d8ae
+      internalID: 744700880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scaredGhost_6
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 52f8a129b11c39c4791f28250e806c84
+      internalID: -1088491007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scaredGhost_7
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6fcfbe321541f9a4bae08cef45137dc8
+      internalID: 846791676
       vertices: []
       indices: 
       edges: []
@@ -217,6 +301,10 @@ TextureImporter:
       scaredGhost_1: 1934073211
       scaredGhost_2: 1412565485
       scaredGhost_3: 1784495067
+      scaredGhost_4: -1923336524
+      scaredGhost_5: 744700880
+      scaredGhost_6: -1088491007
+      scaredGhost_7: 846791676
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
