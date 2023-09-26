@@ -7,12 +7,14 @@ public class PlayerAnimation : MonoBehaviour
     [SerializeField] private GameObject item;
     private Tweener tweener;
     public Animator animatorController;
+    public AudioSource walkingAudio;
     // Start is called before the first frame update
 
     void Start()
     {
         tweener = GetComponent<Tweener>();
         StartCoroutine(movement());
+        walkingAudio.Play();
     }
     
     // Update is called once per frame
