@@ -121,16 +121,59 @@ public class LevelGenerator : MonoBehaviour
                 case 0: //do nothing
                     break;
                 case 1:
-                    Instantiate(sprite1, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    try
+                    {
+                        if (levelMap[y + 1, x] == 2 && levelMap[y, x + 1] == 2)
+                        {
+                            Instantiate(sprite1, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                        }
+                        else
+                        {
+                            Instantiate(sprite1, new Vector3(startX + x, startY - y, 0), Quaternion.Euler(0f, 0f, 90f));
+                        }
+                    }
+                    catch(Exception e)
+                    {
+                        Instantiate(sprite1, new Vector3(startX + x, startY - y, 0), Quaternion.Euler(0f, 0f, 90f));
+                    }
                     break;
                 case 2:
-                    Instantiate(sprite2, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    if (levelMap[y-1, x] == 1 || levelMap[y - 1, x] == 2)
+                    {
+                        Instantiate(sprite2, new Vector3(startX + x, startY - y, 0), Quaternion.Euler(0f, 0f, 90f));
+                    }
+                    else 
+                    {
+                        Instantiate(sprite2, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    }
+                    
                     break;
                 case 3:
                     Instantiate(sprite3, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
                     break;
                 case 4:
-                    Instantiate(sprite4, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    try
+                    {
+                        if (levelMap[y, x - 1] == 4)
+                        {
+                            Instantiate(sprite4, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                        }
+                        else
+                        {
+                            Instantiate(sprite4, new Vector3(startX + x, startY - y, 0), Quaternion.Euler(0f, 0f, 90f));
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        if (levelMap[y, x + 1] == 4)
+                        {
+                            Instantiate(sprite4, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                        }
+                        else
+                        {
+                            Instantiate(sprite4, new Vector3(startX + x, startY - y, 0), Quaternion.Euler(0f, 0f, 90f));
+                        }
+                    }
                     break;
                 case 5:
                     Instantiate(sprite5, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
@@ -152,16 +195,60 @@ public class LevelGenerator : MonoBehaviour
                 case 0: //do nothing
                     break;
                 case 1:
-                    Instantiate(sprite1, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    //Instantiate(sprite1, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    try
+                    {
+                        if (levelMap[y + 1, x] == 2 && levelMap[y, x - 1] == 2)
+                        {
+                            Instantiate(sprite1, new Vector3(startX + x, startY - y, 0), Quaternion.Euler(0f, 0f, 270f));
+                        }
+                        else
+                        {
+                            Instantiate(sprite1, new Vector3(startX + x, startY - y, 0), Quaternion.Euler(0f, 0f, 180f));
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Instantiate(sprite1, new Vector3(startX + x, startY - y, 0), Quaternion.Euler(0f, 0f, 180f));
+                    }
                     break;
                 case 2:
-                    Instantiate(sprite2, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    if (levelMap[y - 1, x] == 1 || levelMap[y - 1, x] == 2)
+                    {
+                        Instantiate(sprite2, new Vector3(startX + x, startY - y, 0), Quaternion.Euler(0f, 0f, 90f));
+                    }
+                    else
+                    {
+                        Instantiate(sprite2, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    }
                     break;
                 case 3:
                     Instantiate(sprite3, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
                     break;
                 case 4:
-                    Instantiate(sprite4, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    try
+                    {
+                        if (levelMap[y, x - 1] == 4) 
+                        {
+                            Instantiate(sprite4, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                        }
+                        else
+                        {
+                            Instantiate(sprite4, new Vector3(startX + x, startY - y, 0), Quaternion.Euler(0f, 0f, 90f));
+                        }
+                    }
+                    catch(Exception e)
+                    {
+                        if (levelMap[y, x + 1] == 4)
+                        {
+                            Instantiate(sprite4, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                        }
+                        else
+                        {
+                            Instantiate(sprite4, new Vector3(startX + x, startY - y, 0), Quaternion.Euler(0f, 0f, 90f));
+                        }
+                    }
+                    
                     break;
                 case 5:
                     Instantiate(sprite5, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
@@ -192,7 +279,7 @@ public class LevelGenerator : MonoBehaviour
                     Instantiate(sprite3, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
                     break;
                 case 4:
-                    Instantiate(sprite4, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    Instantiate(sprite4, new Vector3(startX + x, startY - y, 0), Quaternion.Euler(0f, 0f, 90f));
                     break;
                 case 5:
                     Instantiate(sprite5, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
@@ -223,7 +310,7 @@ public class LevelGenerator : MonoBehaviour
                     Instantiate(sprite3, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
                     break;
                 case 4:
-                    Instantiate(sprite4, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    Instantiate(sprite4, new Vector3(startX + x, startY - y, 0), Quaternion.Euler(0f, 0f, 90f));
                     break;
                 case 5:
                     Instantiate(sprite5, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
