@@ -24,6 +24,60 @@ public class LevelGenerator : MonoBehaviour
                 {0,0,0,0,0,0,5,0,0,0,4,0,0,0},
             };
 
+    private int[,] mirrorVertically(int[,] levelMap)
+    {
+        int rows = levelMap.GetLength(0);
+        int cols = levelMap.GetLength(1);
+
+        int[,] temp = new int[rows, cols];
+
+
+        for (int i = 1; i < rows; i++)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                temp[i, j] = levelMap[rows - 1 - i, j];
+            }
+        }
+        return temp;
+    }
+
+    private int[,] mirrorHorizontally(int[,] levelMap)
+    {
+        int rows = levelMap.GetLength(0);
+        int cols = levelMap.GetLength(1);
+
+        int[,] temp = new int[rows, cols];
+
+
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                temp[i, j] = levelMap[i, cols - 1 - j];
+            }
+        }
+        return temp;
+    }
+
+    private int[,] mirrorHoriAndVert(int[,] levelMap)
+    {
+        int rows = levelMap.GetLength(0);
+        int cols = levelMap.GetLength(1);
+
+        int[,] temp = new int[rows, cols];
+
+
+        for (int i = 1; i < rows; i++)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                temp[i, j] = levelMap[rows - 1 - i, cols - 1 - j];
+            }
+        }
+        return temp;
+    }
+
     [SerializeField] private GameObject sprite1;
     [SerializeField] private GameObject sprite2;
     [SerializeField] private GameObject sprite3;
@@ -32,8 +86,8 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private GameObject sprite6;
     [SerializeField] private GameObject sprite7;
 
-    private int startX = -10;
-    private int startY = 13;
+    private int startX = 0;
+    private int startY = 0;
     //private int startX = 0;
     //private int startY = 0;
 
@@ -41,6 +95,12 @@ public class LevelGenerator : MonoBehaviour
     void Start()
     {
         generate(levelMap);
+        startX += levelMap.GetLength(1);
+        generate(mirrorHorizontally(levelMap));
+        startY -= levelMap.GetLength(0)-1;
+        generate(mirrorHoriAndVert(levelMap));
+        startX = 0;
+        generate(mirrorVertically(levelMap));
     }
 
     // Update is called once per frame
@@ -55,112 +115,21 @@ public class LevelGenerator : MonoBehaviour
         {
             for (int y = 0; y < levelMap.GetLength(0); y++)    //x location
             {
-                Debug.Log(levelMap[y, x]);
                 switch (levelMap[y,x])
                 {
                     case 0: //do nothing
                         break;
                     case 1:
-                        //case 1, wall2 on right and bottom
-                        if (levelMap[y + 1, x] == 2 && levelMap[x + 1, y] == 2)
-                        {
-                            Instantiate(sprite1, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
-                        }
-                        //case 2, wall2 on right and top
-                        else if (levelMap[y - 1, x] == 2 && levelMap[y, x + 1] == 2)
-                        {
-                            Instantiate(sprite1, new Vector3(startX + x, startY - y, 0), Quaternion.Euler(0f, 0f, 90f));
-                        }
-                        //case 3, wall2 on bottom and left
-                        else if (levelMap[y, x-1] == 2 && levelMap[y+1, x] == 2)
-                        {
-                            Instantiate(sprite1, new Vector3(startX + x, startY - y, 0), Quaternion.Euler(0f, 0f, 270f));
-                        }
-                        ///////case 4, wall2 on top and left
-                        else if (levelMap[y-1, x] == 2 && levelMap[y, x-1] == 2)
-                        {
-                            Instantiate(sprite1, new Vector3(startX + x, startY - y, 0), Quaternion.Euler(0f, 0f, 180f));
-                        }
-
+                        Instantiate(sprite1, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
                         break;
                     case 2:
-                        //case 1. wall1 on left or wall7 on right or (walls2 on left and right)
-                        if (y > 0)
-                        {
-                            if (levelMap[y - 1, x] == 1 || (levelMap[y - 1, x] == 2 && levelMap[y + 1, x] == 2) || (levelMap[y + 1, x] == 1))
-                            {
-                                Instantiate(sprite2, new Vector3(startX + x, startY - y, 0), Quaternion.Euler(0f, 0f, 90f));
-                            }
-                            else
-                            {
-                                Instantiate(sprite2, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
-                            }
-                        }
-                        else
-                        {
-                            if (levelMap[y, x - 1] == 1 || levelMap[y, x + 1] == 7 || (levelMap[y, x - 1] == 2 && levelMap[y, x + 1] == 2))
-                            {
-                                Instantiate(sprite2, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
-                            }
-                            else if (levelMap[y - 1, x] == 1 || (levelMap[y - 1, x] == 2 && levelMap[y + 1, x] == 2) || (levelMap[y + 1, x] == 1))
-                            {
-                                Instantiate(sprite2, new Vector3(startX + x, startY - y, 0), Quaternion.Euler(0f, 0f, 90f));
-                            }
-                        }
+                        Instantiate(sprite2, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
                         break;
                     case 3:
-                        if(x < levelMap.GetLength(1)-1)
-                        {
-                            if ((levelMap[y, x + 1] == 4 && levelMap[y + 1, x] == 4) || (levelMap[y, x + 1] == 4 && levelMap[y + 1, x] == 3) || (levelMap[y, x + 1] == 3 && levelMap[y + 1, x] == 4) || (levelMap[y, x + 1] == 3 && levelMap[y + 1, x] == 3))
-                            {
-                                Instantiate(sprite3, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
-                            }
-                            else if ((levelMap[y - 1, x] == 4 && levelMap[y, x + 1] == 4) || (levelMap[y - 1, x] == 3 && levelMap[y, x + 1] == 4) || (levelMap[y - 1, x] == 4 && levelMap[y, x + 1] == 3) || (levelMap[y - 1, x] == 3 && levelMap[y, x + 1] == 3))
-                            {
-                                Instantiate(sprite3, new Vector3(startX + x, startY - y, 0), Quaternion.Euler(0f, 0f, 90f));
-                            }
-                            else if ((levelMap[y, x-1] == 4 && levelMap[y+1, x] == 4) || (levelMap[y, x - 1] == 4 && levelMap[y + 1, x] == 3) || (levelMap[y, x - 1] == 3 && levelMap[y + 1, x] == 4) || (levelMap[y, x - 1] == 3 && levelMap[y + 1, x] == 3))
-                            {
-                                Instantiate(sprite3, new Vector3(startX + x, startY - y, 0), Quaternion.Euler(0f, 0f, 270f));
-                            }
-                            else if ((levelMap[y-1, x] == 4 && levelMap[y, x-1] == 4) || (levelMap[y - 1, x] == 3 && levelMap[y, x - 1] == 4) || (levelMap[y - 1, x] == 4 && levelMap[y, x - 1] == 3) || (levelMap[y - 1, x] == 3 && levelMap[y, x - 1] == 3))
-                            {
-                                Instantiate(sprite3, new Vector3(startX + x, startY - y, 0), Quaternion.Euler(0f, 0f, 180f));
-                            }
-                        }
-                        else
-                        {
-                            if (levelMap[y-1, x] == 4 && levelMap[y, x-1] == 5 && levelMap[y + 1, x] == 5)
-                            {
-                                Instantiate(sprite3, new Vector3(startX + x, startY - y, 0), Quaternion.Euler(0f, 0f, 90f));
-                            }
-                            else if (levelMap[y, x-1] == 4 && levelMap[y+1, x] == 4)
-                            {
-                                Instantiate(sprite3, new Vector3(startX + x, startY - y, 0), Quaternion.Euler(0f, 0f, 270f));
-                            }
-                        }
-
-
-
-
+                        Instantiate(sprite3, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
                         break;
                     case 4:
-                        //if (levelMap[y-1, x] == 3 || levelMap[y+1, x] == 3 || levelMap[y+1, x] == 7 || levelMap[y-1, x] == 4 && (levelMap[y + 1, x] == 3 || levelMap[y + 1, x] == 4))
-                        if(y == levelMap.GetLength(0)-1)
-                        {
-                            if (levelMap[y-1, x] == 4 || levelMap[y - 1, x] == 3)
-                            {
-                                Instantiate(sprite4, new Vector3(startX + x, startY - y, 0), Quaternion.Euler(0f, 0f, 90f));
-                            }
-                        }
-                        else if (levelMap[y - 1, x] == 3 || levelMap[y + 1, x] == 3 || levelMap[y - 1, x] == 7 || (levelMap[y - 1, x] == 4 || levelMap[y - 1, x] == 3) && (levelMap[y + 1, x] == 3 || levelMap[y + 1, x] == 4))
-                        {
-                            Instantiate(sprite4, new Vector3(startX + x, startY - y, 0), Quaternion.Euler(0f, 0f, 90f));
-                        }
-                        else
-                        {
-                            Instantiate(sprite4, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
-                        }
+                        Instantiate(sprite4, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
                         break;
                     case 5:
                         Instantiate(sprite5, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
