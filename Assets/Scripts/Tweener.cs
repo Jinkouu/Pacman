@@ -21,19 +21,25 @@ public class Tweener : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
+        if (activeTween == null)
+        {
 
-        if (Vector3.Distance(activeTween.Target.position, activeTween.EndPos) > 0.1f)
-        {
-            //float distCovered = (Time.time - startTime) * 1.0f;
-            float distCovered = (timer - activeTween.StartTime) * 1.0f;
-            journeyLength = Vector3.Distance(activeTween.StartPos, activeTween.EndPos);
-            var t = distCovered / activeTween.Duration;
-            activeTween.Target.transform.position = Vector3.Lerp(activeTween.StartPos, activeTween.EndPos, t);
         }
-        if (Vector3.Distance(activeTween.Target.position, activeTween.EndPos) <= 0.1f)
+        else
         {
-            activeTween.Target.transform.position = activeTween.EndPos;
-            activeTween = null;
+            if (Vector3.Distance(activeTween.Target.position, activeTween.EndPos) > 0.1f)
+            {
+                //float distCovered = (Time.time - startTime) * 1.0f;
+                float distCovered = (timer - activeTween.StartTime) * 1.0f;
+                journeyLength = Vector3.Distance(activeTween.StartPos, activeTween.EndPos);
+                var t = distCovered / activeTween.Duration;
+                activeTween.Target.transform.position = Vector3.Lerp(activeTween.StartPos, activeTween.EndPos, t);
+            }
+            if (Vector3.Distance(activeTween.Target.position, activeTween.EndPos) <= 0.1f)
+            {
+                activeTween.Target.transform.position = activeTween.EndPos;
+                activeTween = null;
+            }
         }
 
 
