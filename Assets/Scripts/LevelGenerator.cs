@@ -111,6 +111,132 @@ public class LevelGenerator : MonoBehaviour
 
     private void generate(int[,] levelMap)
     {
+        //do left edges first
+        
+        for (int y = 0; y < levelMap.GetLength(0); y++)
+        {
+            int x = 0;
+            switch (levelMap[y, x])
+            {
+                case 0: //do nothing
+                    break;
+                case 1:
+                    Instantiate(sprite1, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    break;
+                case 2:
+                    Instantiate(sprite2, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    break;
+                case 3:
+                    Instantiate(sprite3, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    break;
+                case 4:
+                    Instantiate(sprite4, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    break;
+                case 5:
+                    Instantiate(sprite5, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    break;
+                case 6:
+                    Instantiate(sprite6, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    break;
+                case 7:
+                    Instantiate(sprite7, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    break;
+            }
+        }
+        //right edge
+        for (int y = 0; y < levelMap.GetLength(0); y++)
+        {
+            int x = levelMap.GetLength(1)-1;
+            switch (levelMap[y, x])
+            {
+                case 0: //do nothing
+                    break;
+                case 1:
+                    Instantiate(sprite1, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    break;
+                case 2:
+                    Instantiate(sprite2, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    break;
+                case 3:
+                    Instantiate(sprite3, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    break;
+                case 4:
+                    Instantiate(sprite4, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    break;
+                case 5:
+                    Instantiate(sprite5, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    break;
+                case 6:
+                    Instantiate(sprite6, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    break;
+                case 7:
+                    Instantiate(sprite7, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    break;
+            }
+        }
+        //top edge
+        for (int x = 1; x < levelMap.GetLength(1)-1; x++)
+        {
+            int y = 0;
+            switch (levelMap[y, x])
+            {
+                case 0: //do nothing
+                    break;
+                case 1:
+                    Instantiate(sprite1, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    break;
+                case 2:
+                    Instantiate(sprite2, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    break;
+                case 3:
+                    Instantiate(sprite3, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    break;
+                case 4:
+                    Instantiate(sprite4, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    break;
+                case 5:
+                    Instantiate(sprite5, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    break;
+                case 6:
+                    Instantiate(sprite6, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    break;
+                case 7:
+                    Instantiate(sprite7, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    break;
+            }
+        }
+        //bottom edge
+        for (int x = 1; x < levelMap.GetLength(1) - 1; x++)
+        {
+            int y = levelMap.GetLength(0)-1;
+            switch (levelMap[y, x])
+            {
+                case 0: //do nothing
+                    break;
+                case 1:
+                    Instantiate(sprite1, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    break;
+                case 2:
+                    Instantiate(sprite2, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    break;
+                case 3:
+                    Instantiate(sprite3, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    break;
+                case 4:
+                    Instantiate(sprite4, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    break;
+                case 5:
+                    Instantiate(sprite5, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    break;
+                case 6:
+                    Instantiate(sprite6, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    break;
+                case 7:
+                    Instantiate(sprite7, new Vector3(startX + x, startY - y, 0), Quaternion.identity);
+                    break;
+            }
+        }
+
         for (int x = 1; x < levelMap.GetLength(1)-1; x++)        //y location
         {
             for (int y = 1; y < levelMap.GetLength(0)-1; y++)    //x location
