@@ -2181,6 +2181,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Walls_5
       objectReference: {fileID: 0}
+    - target: {fileID: 338632967353034854, guid: d0348ec4dbf774341a7b5163c493a346, type: 3}
+      propertyPath: m_TagString
+      value: Wall 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2242,6 +2246,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Walls_0
       objectReference: {fileID: 0}
+    - target: {fileID: 1141143100628707279, guid: c394a9b4633a6a44894aaeb6d659fe7e, type: 3}
+      propertyPath: m_TagString
+      value: Wall 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2258,6 +2266,10 @@ PrefabInstance:
     - target: {fileID: 3397739641707032452, guid: a32ab2979a421b941b978c6d48236324, type: 3}
       propertyPath: m_Name
       value: Walls_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3397739641707032452, guid: a32ab2979a421b941b978c6d48236324, type: 3}
+      propertyPath: m_TagString
+      value: Wall 4
       objectReference: {fileID: 0}
     - target: {fileID: 3397739641707032458, guid: a32ab2979a421b941b978c6d48236324, type: 3}
       propertyPath: m_RootOrder
@@ -2364,6 +2376,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Walls_1
       objectReference: {fileID: 0}
+    - target: {fileID: 3572803391381144855, guid: 84d47cefc395799408b9b18ef6f98ad0, type: 3}
+      propertyPath: m_TagString
+      value: Wall 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2380,6 +2396,10 @@ PrefabInstance:
     - target: {fileID: 3833851300998723110, guid: 6a1f80d42ac0c0041b03b6a069db715e, type: 3}
       propertyPath: m_Name
       value: Walls_4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833851300998723110, guid: 6a1f80d42ac0c0041b03b6a069db715e, type: 3}
+      propertyPath: m_TagString
+      value: Wall 5
       objectReference: {fileID: 0}
     - target: {fileID: 3833851300998723112, guid: 6a1f80d42ac0c0041b03b6a069db715e, type: 3}
       propertyPath: m_RootOrder
@@ -2442,6 +2462,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Walls_6
       objectReference: {fileID: 0}
+    - target: {fileID: 5588720872668797379, guid: f7e4f35d0c7c80647920df2fb4114ecc, type: 3}
+      propertyPath: m_TagString
+      value: Wall 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5588720872668797389, guid: f7e4f35d0c7c80647920df2fb4114ecc, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -2502,6 +2526,10 @@ PrefabInstance:
     - target: {fileID: 6002259219450692985, guid: 65f238591e7921d40b0ec8384bd1455f, type: 3}
       propertyPath: m_Name
       value: Walls_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6002259219450692985, guid: 65f238591e7921d40b0ec8384bd1455f, type: 3}
+      propertyPath: m_TagString
+      value: Wall 3
       objectReference: {fileID: 0}
     - target: {fileID: 6002259219450692987, guid: 65f238591e7921d40b0ec8384bd1455f, type: 3}
       propertyPath: m_RootOrder
