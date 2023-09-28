@@ -21,11 +21,7 @@ public class Tweener : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
-        if (activeTween == null)
-        {
-
-        }
-        else
+        if (activeTween != null )
         {
             if (Vector3.Distance(activeTween.Target.position, activeTween.EndPos) > 0.1f)
             {

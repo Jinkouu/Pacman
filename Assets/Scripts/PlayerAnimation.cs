@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,9 +13,15 @@ public class PlayerAnimation : MonoBehaviour
 
     void Start()
     {
-        tweener = GetComponent<Tweener>();
-        StartCoroutine(movement());
-        walkingAudio.Play();
+        try
+        {
+            tweener = GetComponent<Tweener>();
+            StartCoroutine(movement());
+            walkingAudio.Play();
+        }
+        catch(Exception e){
+
+        }
     }
     
     // Update is called once per frame
