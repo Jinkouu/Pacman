@@ -37,22 +37,22 @@ public class PlayerAnimation : MonoBehaviour
     {
         while(!false)
         {
-            tweener.AddTween(item.transform, item.transform.position, new Vector3(-4.0f, 12f, 0.0f), 2.5f);
+            tweener.AddTween(item.transform, item.transform.position, new Vector3(item.transform.position.x + 5.0f, item.transform.position.y + 0f, item.transform.position.z + 0.0f), 2.5f);
             animatorController.SetTrigger("Right");
             yield return new WaitForSeconds(2.5f);
 
 
-            tweener.AddTween(item.transform, item.transform.position, new Vector3(-4.0f, 8f, 0.0f), 2f);
+            tweener.AddTween(item.transform, item.transform.position, new Vector3(item.transform.position.x + 0.0f, item.transform.position.y - 4f, item.transform.position.z + 0.0f), 2f);
             animatorController.SetTrigger("Down");
             yield return new WaitForSeconds(2);
 
 
-            tweener.AddTween(item.transform, item.transform.position, new Vector3(-9.0f, 8f, 0.0f), 2.5f);
+            tweener.AddTween(item.transform, item.transform.position, new Vector3(item.transform.position.x - 5.0f, item.transform.position.y + 0f, item.transform.position.z + 0.0f), 2.5f);
             animatorController.SetTrigger("Left");
             yield return new WaitForSeconds(2.5f);
 
 
-            tweener.AddTween(item.transform, item.transform.position, new Vector3(-9.0f, 12f, 0.0f), 2f);
+            tweener.AddTween(item.transform, item.transform.position, new Vector3(item.transform.position.x + 0.0f, item.transform.position.y + 4f, item.transform.position.z + 0.0f), 2f);
             animatorController.SetTrigger("Up");
             yield return new WaitForSeconds(2);
         }

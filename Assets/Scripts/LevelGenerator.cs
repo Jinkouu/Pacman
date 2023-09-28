@@ -180,7 +180,11 @@ public class LevelGenerator : MonoBehaviour
                             break;
                         case "Wall 4":
                             //on top is a edge piece that is going down
-                            if (y > 0)
+                            if (y == 1)
+                            {
+                                transArray[y, x].transform.Rotate(0, 0, 90f, Space.Self);
+                            }
+                            else
                             {
                                 if (transArray[y - 1, x].tag == "Wall 3" && (transArray[y - 1, x].rotation.eulerAngles.z == 270f || transArray[y - 1, x].rotation.eulerAngles.z == 0f))
                                 {
@@ -194,10 +198,6 @@ public class LevelGenerator : MonoBehaviour
                                 {
                                     transArray[y, x].transform.Rotate(0, 0, 90f, Space.Self);
                                 }
-                            }
-                            else
-                            {
-                                transArray[y, x].transform.Rotate(0, 0, 90f, Space.Self);
                             }
 
                             break;
