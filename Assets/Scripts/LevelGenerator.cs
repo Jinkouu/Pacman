@@ -5,35 +5,63 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
 {
-    int[,] levelMap =
-            {
-                {1,2,2,2,2,2,2,2,2,2,2,2,2,7},
-                {2,5,5,5,5,5,5,5,5,5,5,5,5,4},
-                {2,5,3,4,4,3,5,3,4,4,4,3,5,4},
-                {2,6,4,0,0,4,5,4,0,0,0,4,5,4},
-                {2,5,3,4,4,3,5,3,4,4,4,3,5,3},
-                {2,5,5,5,5,5,5,5,5,5,5,5,5,5},
-                {2,5,3,4,4,3,5,3,3,5,3,4,4,4},
-                {2,5,3,4,4,3,5,4,4,5,3,4,4,3},
-                {2,5,5,5,5,5,5,4,4,5,5,5,5,4},
-                {1,2,2,2,2,1,5,4,3,4,4,3,0,4},
-                {0,0,0,0,0,2,5,4,3,4,4,3,0,3},
-                {0,0,0,0,0,2,5,4,4,0,0,0,0,0},
-                {0,0,0,0,0,2,5,4,4,0,3,4,4,0},
-                {2,2,2,2,2,1,5,3,3,0,4,0,0,0},
-                {0,0,0,0,0,0,5,0,0,0,4,0,0,0},
-            };
     //int[,] levelMap =
-    //    {
-    //      {1,2,2,2,2,2,2,1},
-    //      {2,0,0,0,0,0,0,2},
-    //      {2,0,0,3,3,0,0,2},
-    //      {2,0,3,3,3,3,0,2},
-    //      {2,0,4,0,3,3,0,2},
-    //      {2,0,3,4,3,0,0,2},
-    //      {2,0,0,0,0,0,0,2},
-    //      {1,2,2,2,2,2,2,1},
-    //    };
+    //        {
+    //            {1,2,2,2,2,2,2,2,2,2,2,2,2,7},
+    //            {2,5,5,5,5,5,5,5,5,5,5,5,5,4},
+    //            {2,5,3,4,4,3,5,3,4,4,4,3,5,4},
+    //            {2,6,4,0,0,4,5,4,0,0,0,4,5,4},
+    //            {2,5,3,4,4,3,5,3,4,4,4,3,5,3},
+    //            {2,5,5,5,5,5,5,5,5,5,5,5,5,5},
+    //            {2,5,3,4,4,3,5,3,3,5,3,4,4,4},
+    //            {2,5,3,4,4,3,5,4,4,5,3,4,4,3},
+    //            {2,5,5,5,5,5,5,4,4,5,5,5,5,4},
+    //            {1,2,2,2,2,1,5,4,3,4,4,3,0,4},
+    //            {0,0,0,0,0,2,5,4,3,4,4,3,0,3},
+    //            {0,0,0,0,0,2,5,4,4,0,0,0,0,0},
+    //            {0,0,0,0,0,2,5,4,4,0,3,4,4,0},
+    //            {2,2,2,2,2,1,5,3,3,0,4,0,0,0},
+    //            {0,0,0,0,0,0,5,0,0,0,4,0,0,0},
+    //        };
+    int[,] levelMap =
+        {
+          {1,2,2,2,2,2,2,1},
+          {2,0,0,0,0,0,0,2},
+          {2,0,0,3,3,0,0,2},
+          {2,0,3,3,3,3,0,2},
+          {2,0,4,0,3,3,0,2},
+          {2,0,3,4,3,0,0,2},
+          {2,0,0,0,0,0,0,2},
+          {1,2,2,2,2,2,2,1},
+        };
+    //int[,] levelMap =
+    //{
+    //    {1,2,2,2,2,2,1,0,0,0,0,1,2,2,2,2,2},
+    //    {2,5,5,5,5,5,1,2,2,2,2,1,5,5,5,5,5},
+    //    {2,5,3,4,4,3,5,5,5,5,5,5,3,7,3,5,5},
+    //    {2,6,4,0,0,4,5,3,4,4,3,5,4,7,7,5,5},
+    //    {2,5,3,4,4,3,5,3,4,4,3,5,3,7,3,5,5},
+    //    {2,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5},
+    //    {7,3,6,3,4,3,5,3,3,5,3,4,4,4,4,4,4},
+    //    {7,3,6,3,4,3,5,4,4,5,3,4,4,3,0,0,0},
+    //    {2,5,5,5,5,5,5,4,4,5,5,5,5,4,0,0,0},
+    //    {1,2,2,2,2,1,5,4,3,4,4,3,0,4,0,0,0},
+    //    {0,0,0,0,0,2,5,4,3,4,4,3,0,3,4,4,4},
+    //    {0,0,0,0,0,2,5,4,4,0,0,0,0,0,0,0,0},
+    //    {0,0,0,0,0,2,5,4,4,0,0,3,4,4,4,4,0},
+    //    {0,0,0,0,0,2,5,4,4,0,0,4,0,0,0,0,0},
+    //    {0,1,2,2,2,1,5,4,4,0,0,4,0,0,0,0,0},
+    //    {0,2,0,0,0,0,5,4,4,0,0,4,0,0,0,0,0},
+    //    {0,2,0,0,0,0,5,4,4,0,0,4,0,0,0,0,0},
+    //    {0,2,0,0,0,0,5,4,4,0,0,4,0,0,0,0,0},
+    //    {0,1,1,0,0,0,5,4,4,0,0,4,0,0,0,0,0},
+    //    {0,0,1,1,0,0,5,4,4,0,0,4,0,0,0,0,0},
+    //    {0,0,0,2,0,0,5,4,4,0,0,4,0,0,0,0,0},
+    //    {0,0,0,1,2,1,5,4,4,0,0,4,0,0,0,0,0},
+    //    {0,0,0,0,0,2,5,4,4,0,0,4,0,0,0,0,0},
+    //    {2,2,2,2,2,1,5,3,3,0,3,3,0,0,0,0,0},
+    //    {0,0,0,0,0,0,5,0,0,0,4,0,0,0,0,0,0},
+    //};
 
     private Transform[,] transArray;
 
@@ -107,21 +135,31 @@ public class LevelGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //top left
         transArray = new Transform[levelMap.GetLength(0), levelMap.GetLength(1)];
         generate(levelMap);
         rotate(transArray);
+        //top right
         startX += levelMap.GetLength(1);
         transArray = new Transform[levelMap.GetLength(0), levelMap.GetLength(1)];
         generate(mirrorHorizontally(levelMap));
         rotate(transArray);
+        //bottom right
         startY -= levelMap.GetLength(0) - 1;
         transArray = new Transform[levelMap.GetLength(0), levelMap.GetLength(1)];
         generate(mirrorHoriAndVert(levelMap));
         rotate(transArray);
+        //bottom left
         startX = 0;
         transArray = new Transform[levelMap.GetLength(0), levelMap.GetLength(1)];
         generate(mirrorVertically(levelMap));
         rotate(transArray);
+    }
+
+    private void rotate(Transform[,] transArray)
+    {
+        rotateStraight(transArray);
+        rotateEdges(transArray);
     }
 
     private void rotateStraight(Transform[,] transArray)
@@ -150,7 +188,18 @@ public class LevelGenerator : MonoBehaviour
                             //on top is a edge piece that is going down
                             if (y == 1)
                             {
-                                transArray[y, x].transform.Rotate(0, 0, 90f, Space.Self);
+                                if (transArray[y + 1, x].tag == "Wall 3" || transArray[y + 1, x].tag == "Wall 4")
+                                {
+                                    transArray[y, x].transform.Rotate(0, 0, 90f, Space.Self);
+                                }
+                            }
+                            else if (y == transArray.GetLength(0) - 1)
+                            {
+                                if ((transArray[y - 1, x].tag == "Wall 4" && transArray[y-1, x].rotation.eulerAngles.z == 90f) 
+                                    || transArray[y - 1, x].tag == "Wall 3" && (transArray[y-1, x].rotation.eulerAngles.z == 0f || transArray[y - 1, x].rotation.eulerAngles.z == 270f))
+                                {
+                                    transArray[y, x].transform.Rotate(0, 0, 90f, Space.Self);
+                                }
                             }
                             else if ((transArray[y - 1, x].tag == "Wall 4" && transArray[y - 1, x].rotation.eulerAngles.z == 90f))
                             {
@@ -164,6 +213,7 @@ public class LevelGenerator : MonoBehaviour
                             {
                                 transArray[y, x].transform.Rotate(0, 0, 90f, Space.Self);
                             }
+                            
                             //if (y == 1)
                             //
                             //   transArray[y, x].transform.Rotate(0, 0, 90f, Space.Self);
@@ -197,9 +247,8 @@ public class LevelGenerator : MonoBehaviour
         }
     }
 
-    private void rotate(Transform[,] transArray)
+    private void rotateEdges(Transform[,] transArray)
     {
-        rotateStraight(transArray);
         for (int x = 0; x < levelMap.GetLength(1); x++)        //y location
         {
             for (int y = 0; y < levelMap.GetLength(0); y++)    //x location
@@ -210,29 +259,35 @@ public class LevelGenerator : MonoBehaviour
                     switch (transArray[y, x].tag)
                     {
                         case "Wall 1":
-                            if (transArray[y, x + 1].tag == "Wall 2" && transArray[y - 1, x].tag == "Wall 2")
+                            //if (y > 0 && y < levelMap.GetLength(0)-1)
+                            if ((transArray[y, x + 1].tag == "Wall 2" || (transArray[y, x + 1].tag == "Wall 1")) 
+                                && (transArray[y - 1, x].tag == "Wall 2" || transArray[y - 1, x]. tag == "Wall 1" && (transArray[y-1, x].rotation.eulerAngles.z == 0f || transArray[y-1, x].rotation.eulerAngles.z == 270f)))
                             {
                                 transArray[y, x].transform.Rotate(0, 0, 90f, Space.Self);
                             }
-                            else if (transArray[y, x - 1].tag == "Wall 2" && transArray[y - 1, x].tag == "Wall 2")
+                            else if ((transArray[y, x - 1].tag == "Wall 2" || transArray[y, x-1].tag == "Wall 1" && (transArray[y, x-1].rotation.eulerAngles.z == 0f || transArray[y, x-1].rotation.eulerAngles.z ==90f)) //up and left
+                                && (transArray[y - 1, x].tag == "Wall 2" || transArray[y - 1, x].tag == "Wall 1" && (transArray[y-1 , x].rotation.eulerAngles.z == 0f || transArray[y-1, x].rotation.eulerAngles.z == 270f)))
                             {
                                 transArray[y, x].transform.Rotate(0, 0, 180f, Space.Self);
                             }
-                            else if (transArray[y, x - 1].tag == "Wall 2" && transArray[y + 1, x].tag == "Wall 2")
+                            else if ((transArray[y, x - 1].tag == "Wall 2" || transArray[y, x-1].tag == "Wall 1" && (transArray[y, x-1].rotation.eulerAngles.z == 0f || transArray[y, x - 1].rotation.eulerAngles.z == 90f)) 
+                                && (transArray[y + 1, x].tag == "Wall 2" || transArray[y + 1, x].tag == "Wall 1")) //&& (transArray[y + 1, x].rotation.eulerAngles.z == 90f || transArray[y + 1, x].rotation.eulerAngles.z == 180f)))
                             {
                                 transArray[y, x].transform.Rotate(0, 0, 270f, Space.Self);
                             }
                             break;
                         case "Wall 3": //do this after wall 4
-                            //if (transArray[y - 1, x].tag == "Wall 4" && transArray[y - 1, x].rotation.eulerAngles.z == 90f && !((transArray[y, x - 1].rotation.eulerAngles.z == 0f && transArray[y, x - 1].tag == "Wall 4") || (transArray[y, x - 1].rotation.eulerAngles.z == 270f || transArray[y, x - 1].rotation.eulerAngles.z == 0f && transArray[y, x - 1].tag == "Wall 3")))
-                            //{
-                            //    transArray[y, x].transform.Rotate(0, 0, 90f, Space.Self);
-                            //}
-
                             if (((transArray[y-1, x].tag == "Wall 4" && transArray[y-1, x].rotation.eulerAngles.z == 90f) || transArray[y - 1, x].tag == "Wall 3" && (transArray[y-1, x].rotation.eulerAngles.z == 0f || transArray[y - 1, x].rotation.eulerAngles.z == 270f))
                                 && ((transArray[y, x + 1].tag == "Wall 4" && transArray[y, x + 1].rotation.z == 0f) || transArray[y, x + 1].tag == "Wall 3"))
                             {
-                                transArray[y, x].transform.Rotate(0, 0, 90f, Space.Self);
+                                if ((transArray[y, x - 1].tag == "Wall 3" && (transArray[y, x - 1].rotation.eulerAngles.z == 0 || transArray[y, x - 1].rotation.eulerAngles.z == 90f)) || (transArray[y, x - 1].tag == "Wall 4" && transArray[y, x - 1].rotation.eulerAngles.z == 0f))
+                                {
+                                    transArray[y, x].transform.Rotate(0, 0, 180f, Space.Self);
+                                }
+                                else
+                                {
+                                    transArray[y, x].transform.Rotate(0, 0, 90f, Space.Self);
+                                }
                             }
                             else if (((transArray[y-1, x].tag == "Wall 4" && transArray[y-1, x].rotation.eulerAngles.z == 90f) || transArray[y - 1, x].tag == "Wall 3" && (transArray[y - 1, x].rotation.eulerAngles.z == 0f || transArray[y - 1, x].rotation.eulerAngles.z == 270f))
                                 && ((transArray[y, x-1].tag == "Wall 4" && transArray[y, x-1].rotation.z == 0f) || (transArray[y, x - 1].tag == "Wall 3" && (transArray[y, x-1].rotation.eulerAngles.z == 90f || transArray[y, x-1].rotation.eulerAngles.z == 0f))))
@@ -244,19 +299,58 @@ public class LevelGenerator : MonoBehaviour
                             {
                                 transArray[y, x].transform.Rotate(0, 0, 270f, Space.Self);
                             }
-                            //the bottom is with rotations
-                            //else if (((transArray[y+1, x].tag == "Wall 4" && transArray[y+1, x].rotation.eulerAngles.z == 90f) || transArray[y + 1, x].tag == "Wall 3" && (transArray[y+1, x].rotation.eulerAngles.z == 90f || transArray[y+1, x].rotation.eulerAngles.z == 180f))
-                            //    && ((transArray[y, x-1].tag == "Wall 4" && transArray[y, x-1].rotation.eulerAngles.z == 0f) || transArray[y, x-1].tag == "Wall 3" && (transArray[y, x - 1].rotation.eulerAngles.z == 90f || transArray[y, x - 1].rotation.eulerAngles.z == 0f)))
-                            //{
-                            //    transArray[y, x].transform.Rotate(0, 0, 270f, Space.Self);
-                            //}
+                            //------ wall 7
+                            else if (((transArray[y - 1, x].tag == "Wall 4" && transArray[y - 1, x].rotation.eulerAngles.z == 90f) || transArray[y - 1, x].tag == "Wall 3" && (transArray[y - 1, x].rotation.eulerAngles.z == 0f || transArray[y - 1, x].rotation.eulerAngles.z == 270f))
+                                && (transArray[y, x + 1].tag == "Wall 7"))
+                            {
+                                transArray[y, x].transform.Rotate(0, 0, 90f, Space.Self);
+                            }
+                            else if (((transArray[y - 1, x].tag == "Wall 4" && transArray[y - 1, x].rotation.eulerAngles.z == 90f) || transArray[y - 1, x].tag == "Wall 3" && (transArray[y - 1, x].rotation.eulerAngles.z == 0f || transArray[y - 1, x].rotation.eulerAngles.z == 270f))
+                                && (transArray[y, x - 1].tag == "Wall 7"))
+                            {
+                                transArray[y, x].transform.Rotate(0, 0, 180f, Space.Self);
+                            }
+                            else if (((transArray[y + 1, x].tag == "Wall 4" && transArray[y + 1, x].rotation.eulerAngles.z == 90f) || transArray[y + 1, x].tag == "Wall 3")
+                                && (transArray[y, x - 1].tag == "Wall 7"))
+                            {
+                                transArray[y, x].transform.Rotate(0, 0, 270f, Space.Self);
+                            }
                             break;
                         case "Wall 5":
                             break;
                         case "Wall 6":
                             break;
                         case "Wall 7":
-                            if (x == transArray.GetLength(1)-1)
+                            if (y > 0 && y < transArray.GetLength(0) - 1 && x < transArray.GetLength(1) - 1)
+                            {
+                                if (((transArray[y-1, x].tag == "Wall 2" && transArray[y-1, x].rotation.eulerAngles.z == 90f) || transArray[y-1, x].tag == "Wall 1" && (transArray[y-1, x].rotation.eulerAngles.z == 0 || transArray[y-1, x].rotation.eulerAngles.z == 270f))
+                                    && (transArray[y, x+1].tag == "Wall 4" || transArray[y, x+1].tag == "Wall 3"))
+                                {
+                                    transArray[y, x].transform.localScale = new Vector3(-1, 1, 1);
+                                    transArray[y, x].transform.Rotate(0, 0, 90f, Space.Self);
+                                }
+                                else if (((transArray[y+1, x].tag == "Wall 2" && transArray[y + 1, x].rotation.eulerAngles.z == 90f) || transArray[y+1, x].tag == "Wall 1")
+                                    && (transArray[y, x+1].tag == "Wall 4" || transArray[y, x+1].tag == "Wall 3"))
+                                {
+                                    transArray[y, x].transform.Rotate(0, 0, 90f, Space.Self);
+                                }
+                            }
+                            else if (y > 0 && y < transArray.GetLength(0) - 1 && x == transArray.GetLength(1) - 1)
+                            {
+                                if (((transArray[y - 1, x].tag == "Wall 2" && transArray[y - 1, x].rotation.eulerAngles.z == 90f) || transArray[y - 1, x].tag == "Wall 1" && (transArray[y - 1, x].rotation.eulerAngles.z == 0 || transArray[y - 1, x].rotation.eulerAngles.z == 270f))
+                                    && ((transArray[y, x-1].tag == "Wall 4" && transArray[y, x-1].rotation.eulerAngles.z == 0f) || transArray[y, x-1].tag == "Wall 3" && (transArray[y, x-1].rotation.eulerAngles.z == 0f || transArray[y, x-1].rotation.eulerAngles.z == 90f)))
+                                {
+                                    transArray[y, x].transform.Rotate(0, 0, 270f, Space.Self);
+                                }
+                                else if (((transArray[y + 1, x].tag == "Wall 2" && transArray[y + 1, x].rotation.eulerAngles.z == 90f) || transArray[y - 1, x].tag == "Wall 1")
+                                    && ((transArray[y, x - 1].tag == "Wall 4" && transArray[y, x - 1].rotation.eulerAngles.z == 0f) || transArray[y, x - 1].tag == "Wall 3" && (transArray[y, x - 1].rotation.eulerAngles.z == 0f || transArray[y, x - 1].rotation.eulerAngles.z == 90f)))
+                                {
+                                    transArray[y, x].transform.localScale = new Vector3(-1, 1, 1);
+                                    transArray[y, x].transform.Rotate(0, 0, 270f, Space.Self);
+                                }
+                            }
+                            //-------------
+                            else if (x == transArray.GetLength(1)-1)
                             {
                                 if (transArray[y-1, x].tag == "Wall 4" && transArray[y-1, x].transform.rotation.eulerAngles.z == 90f)
                                 {
@@ -292,7 +386,14 @@ public class LevelGenerator : MonoBehaviour
                         switch (transArray[y, x].tag)
                         {
                             case "Wall 1":
-                                if (y < transArray.GetLength(0) - 1)
+                                if(y == 0)
+                                {
+                                    if (transArray[y, x-1].tag == "Wall 2" || transArray[y, x-1].tag == "Wall 1" && (transArray[y, x-1].rotation.eulerAngles.z == 0f))
+                                    {
+                                        transArray[y, x].transform.Rotate(0, 0, 270f, Space.Self);
+                                    }
+                                }
+                                else if (y < transArray.GetLength(0) - 1)
                                 {
                                     if (transArray[y, x - 1].tag == "Wall 2" && transArray[y + 1, x].tag == "Wall 2")
                                     {
