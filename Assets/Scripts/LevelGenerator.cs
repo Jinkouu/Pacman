@@ -126,6 +126,8 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private GameObject sprite5;
     [SerializeField] private GameObject sprite6;
     [SerializeField] private GameObject sprite7;
+    [SerializeField] private GameObject normalPellet;
+    [SerializeField] private GameObject powerPellet;
 
     private int startX = 0;
     private int startY = 0;
@@ -491,9 +493,11 @@ public class LevelGenerator : MonoBehaviour
                         break;
                     case 5:
                         transArray[y, x] = Instantiate(sprite5, new Vector3(startX + x, startY - y, 0), Quaternion.identity).transform;
+                        transArray[y, x] = Instantiate(normalPellet, new Vector3(startX + x, startY - y, 1), Quaternion.identity).transform;
                         break;
                     case 6:
                         transArray[y, x] = Instantiate(sprite6, new Vector3(startX + x, startY - y, 0), Quaternion.identity).transform;
+                        transArray[y, x] = Instantiate(powerPellet, new Vector3(startX + x, startY - y, 1), Quaternion.identity).transform;
                         break;
                     case 7:
                         transArray[y, x] = Instantiate(sprite7, new Vector3(startX + x, startY - y, 0), Quaternion.identity).transform;
