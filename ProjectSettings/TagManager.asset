@@ -11,6 +11,7 @@ TagManager:
   - Wall 5
   - Wall 6
   - Wall 7
+  - uiPellet
   layers:
   - Default
   - TransparentFX

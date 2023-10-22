@@ -4,49 +4,57 @@ using UnityEngine;
 
 public class Tweener : MonoBehaviour
 {
-    private Tween activeTween;
-    //private List<Tween> activeTweens = new List<Tween>();
-    private float startTime;
-    private float journeyLength;
-    private float timer = 0;
+    //private Tween activeTween;
+    private List<Tween> activeTweens;
 
-    // Start is called before the first frame update
     void Start()
     {
-        timer = 0;
-        startTime = Time.time;
+        activeTweens = new List<Tween>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        timer += Time.deltaTime;
-        if (activeTween != null )
+        //if (activeTween != null)
+        Tween activeTween;
+        for (int i = activeTweens.Count - 1; i >= 0; i--) //Tween activeTween in activeTweens.Reverse<Tween>())
         {
+            activeTween = activeTweens[i];
+
             if (Vector3.Distance(activeTween.Target.position, activeTween.EndPos) > 0.1f)
             {
-                //float distCovered = (Time.time - startTime) * 1.0f;
-                float distCovered = (timer - activeTween.StartTime) * 1.0f;
-                journeyLength = Vector3.Distance(activeTween.StartPos, activeTween.EndPos);
-                var t = distCovered / activeTween.Duration;
-                activeTween.Target.transform.position = Vector3.Lerp(activeTween.StartPos, activeTween.EndPos, t);
+                float timeFraction = (Time.time - activeTween.StartTime) / activeTween.Duration;
+                //timeFraction = Mathf.Pow(timeFraction, 3);
+                activeTween.Target.position = Vector3.Lerp(activeTween.StartPos,
+                                                          activeTween.EndPos,
+                                                           timeFraction);
             }
-            if (Vector3.Distance(activeTween.Target.position, activeTween.EndPos) <= 0.1f)
+            else
             {
-                activeTween.Target.transform.position = activeTween.EndPos;
-                activeTween = null;
+                activeTween.Target.position = activeTween.EndPos;
+                //activeTween = null;
+                activeTweens.RemoveAt(i);
             }
         }
-
-
     }
 
-    public void AddTween(Transform targetObject, Vector3 startPos, Vector3 endPos, float duration)
+    public bool AddTween(Transform targetObject, Vector3 startPos, Vector3 endPos, float duration)
     {
-        if (activeTween == null)
+        if (!TweenExists(targetObject))
         {
-            activeTween = new Tween(targetObject, startPos, endPos, Time.time, duration);
-            startTime = timer;
+            activeTweens.Add(new Tween(targetObject, startPos, endPos, Time.time, duration));
+            return true;
         }
+        return false;
+    }
+
+
+    public bool TweenExists(Transform target)
+    {
+        foreach (Tween activeTween in activeTweens)
+        {
+            if (activeTween.Target.transform == target)
+                return true;
+        }
+        return false;
     }
 }
