@@ -24,4 +24,11 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+    public void LoadStartLevel()
+    {
+        //SceneManager.sceneLoaded += OnScreenLoad;
+        //DontDestroyOnLoad(gameObject);
+        SceneManager.LoadScene(0);
+    }
+
 }
