@@ -1805,7 +1805,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 1376180507}
-  pellet: {fileID: 5973501801538734025, guid: 839a339e56143b04393007969de8dcb8, type: 3}
+  pellet: {fileID: 6598575403694566634, guid: 839a339e56143b04393007969de8dcb8, type: 3}
   tweener: {fileID: 572694831}
 --- !u!4 &1190620960
 Transform:
