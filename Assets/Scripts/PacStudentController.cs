@@ -9,6 +9,7 @@ public class PacStudentController : MonoBehaviour
     public Tweener tweener;
     public Animator animatorController;
     public AudioSource walkingAudio;
+    public ParticleSystem particles;
 
     private int currentPosX;
     private int currentPosY;
@@ -115,16 +116,7 @@ public class PacStudentController : MonoBehaviour
             {
                 if (checkPosition(currentInput))
                 {
-                    if(animatorController.enabled == false)
-                    {
-                        animatorController.enabled = true;
-                    }
-
-                    if (!walkingAudio.isPlaying)
-                    {
-                        walkingAudio.Play();
-                    }
-
+                    startMoving();
                     switch (currentInput)
                     {
                         case KeyCode.A:
@@ -150,19 +142,14 @@ public class PacStudentController : MonoBehaviour
                     currentInput = KeyCode.None;
                     walkingAudio.Stop();
                     animatorController.enabled = false;
+                    //particles.part;
+                    particles.Stop();
+                    //particles.Pause();
                 }
             }
             else
             {
-                if (animatorController.enabled == false)
-                {
-                    animatorController.enabled = true;
-                }
-                if (!walkingAudio.isPlaying)
-                {
-                    walkingAudio.Play();
-                }
-
+                startMoving();
                 switch (lastInput)
                 {
                     case KeyCode.A:
@@ -179,6 +166,22 @@ public class PacStudentController : MonoBehaviour
                         break;
                 }
             }
+        }
+    }
+
+    private void startMoving()
+    {
+        if (animatorController.enabled == false)
+        {
+            animatorController.enabled = true;
+        }
+        if (!walkingAudio.isPlaying)
+        {
+            walkingAudio.Play();
+        }
+        if (!particles.isPlaying)
+        {
+            particles.Play();
         }
     }
 
