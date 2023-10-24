@@ -90,155 +90,144 @@ public class PacStudentController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("current: " + currentInput + " last: " + lastInput);
 
         // get current input and assign last input
         // if current input is not a valid direction, continue going with the last input
         //
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            lastInput = KeyCode.A;
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            lastInput = KeyCode.S;
+        }
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            lastInput = KeyCode.D;
+        }
+        else if (Input.GetKeyDown(KeyCode.W))
+        {
+            lastInput = KeyCode.W;
+        }
+
         if (!tweener.TweenExists(item.transform))
         {
-            if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) && checkPosition(currentPosX - 1, currentPosY) == true)
+            if (!checkPosition(lastInput))
             {
-                animatorController.SetTrigger("Left");
-                tweener.AddTween(item.transform, item.transform.position, new Vector3(item.transform.position.x - 1, item.transform.position.y, 0f), 0.4f);
-                currentPosX -= 1;
-                currentInput = KeyCode.A;
-            }
-            else if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && checkPosition(currentPosX, currentPosY + 1) == true)
-            {
-                animatorController.SetTrigger("Down");
-                tweener.AddTween(item.transform, item.transform.position, new Vector3(item.transform.position.x, item.transform.position.y - 1, 0f), 0.4f);
-                currentPosY += 1;
-                currentInput = KeyCode.S;
-            }
-            else if ((Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) && checkPosition(currentPosX + 1, currentPosY) == true)
-            {
-                animatorController.SetTrigger("Right");
-                tweener.AddTween(item.transform, item.transform.position, new Vector3(item.transform.position.x + 1, item.transform.position.y, 0f), 0.4f);
-                currentPosX += 1;
-                currentInput = KeyCode.D;
-            }
-            else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && checkPosition(currentPosX, currentPosY - 1) == true)
-            {
-                animatorController.SetTrigger("Up");
-                tweener.AddTween(item.transform, item.transform.position, new Vector3(item.transform.position.x, item.transform.position.y + 1, 0f), 0.4f);
-                currentPosY -= 1;
-                currentInput = KeyCode.W;
+                if (checkPosition(currentInput))
+                {
+                    switch (currentInput)
+                    {
+                        case KeyCode.A:
+                            moveLeftCurrent();
+                            break;
+                        case KeyCode.S:
+                            moveDownCurrent();
+                            break;
+                        case KeyCode.D:
+                            moveRightCurrent();
+                            break;
+                        case KeyCode.W:
+                            moveUpCurrent();
+                            break;
+                        default:
+                            lastInput = KeyCode.None;
+                            break;
+                    }
+                }
+                else
+                {
+                    lastInput = KeyCode.None;
+                    currentInput = KeyCode.None;
+                }
             }
             else
             {
-
                 switch (lastInput)
                 {
                     case KeyCode.A:
-                        if (checkPosition(currentPosX - 1, currentPosY) == true)
-                        {
-                            tweener.AddTween(item.transform, item.transform.position, new Vector3(item.transform.position.x - 1, item.transform.position.y, 0f), 0.4f);
-                            currentPosX -= 1;
-                            lastInput = KeyCode.A;
-                        }
-                        else
-                        {
-                            lastInput = KeyCode.None;
-                        }
+                        moveLeft();
                         break;
                     case KeyCode.S:
-                        if (checkPosition(currentPosX, currentPosY + 1) == true)
-                        {
-                            tweener.AddTween(item.transform, item.transform.position, new Vector3(item.transform.position.x, item.transform.position.y - 1, 0f), 0.4f);
-                            currentPosY += 1;
-                            lastInput = KeyCode.S;
-                        }
-                        else
-                        {
-                            lastInput = KeyCode.None;
-                        }
+                        moveDown();
                         break;
-                    case KeyCode.D:
-                        if (checkPosition(currentPosX + 1, currentPosY) == true)
-                        {
-                            tweener.AddTween(item.transform, item.transform.position, new Vector3(item.transform.position.x + 1, item.transform.position.y, 0f), 0.4f);
-                            currentPosX += 1;
-                            lastInput = KeyCode.D;
-                        }
-                        else
-                        {
-                            lastInput = KeyCode.None;
-                        }
+                    case KeyCode.D: 
+                        moveRight();
                         break;
-                    case KeyCode.W:
-                        if (checkPosition(currentPosX, currentPosY - 1) == true)
-                        {
-                            tweener.AddTween(item.transform, item.transform.position, new Vector3(item.transform.position.x, item.transform.position.y + 1, 0f), 0.4f);
-                            currentPosY -= 1;
-                            lastInput = KeyCode.W;
-                        }
-                        else
-                        {
-                            lastInput = KeyCode.None;
-                        }
-                        break;
-                    default:
-                        //do nothing
+                    case KeyCode.W: 
+                        moveUp();
                         break;
                 }
             }
         }
+    }
 
-        //switch (lastInput)
-        //{
-        //    case KeyCode.A:
-        //        if (checkPosition(currentPosX - 1, currentPosY) == true)
-        //        {
-        //            tweener.AddTween(item.transform, item.transform.position, new Vector3(item.transform.position.x - 1, item.transform.position.y, 0f), 0.4f);
-        //            currentPosX -= 1;
-        //        }
-        //        else
-        //        {
-        //            lastInput = KeyCode.None;
-        //        }
-        //        break;
-        //    case KeyCode.S:
-        //        if (checkPosition(currentPosX, currentPosY + 1) == true)
-        //        {
-        //            tweener.AddTween(item.transform, item.transform.position, new Vector3(item.transform.position.x, item.transform.position.y - 1, 0f), 0.4f);
-        //            currentPosY += 1;
-        //        }
-        //        else
-        //        {
-        //            lastInput = KeyCode.None;
-        //        }
-        //        break;
-        //    case KeyCode.D:
-        //        if (checkPosition(currentPosX + 1, currentPosY) == true)
-        //        {
-        //            tweener.AddTween(item.transform, item.transform.position, new Vector3(item.transform.position.x + 1, item.transform.position.y, 0f), 0.4f);
-        //            currentPosX -= 1;
-        //        }
-        //        else
-        //        {
-        //            lastInput = KeyCode.None;
-        //        }
-        //        break;
-        //    case KeyCode.W:
-        //        if (checkPosition(currentPosX, currentPosY - 1) == true)
-        //        {
-        //            tweener.AddTween(item.transform, item.transform.position, new Vector3(item.transform.position.x, item.transform.position.y + 1, 0f), 0.4f);
-        //            currentPosY -= 1;
-        //        }
-        //        else
-        //        {
-        //            lastInput = KeyCode.None;
-        //        }
-        //        break;
-        //    default:
-        //        //do nothing
-        //        break;
-        //}
+    private void moveUp()
+    {
+        animatorController.SetTrigger("Up");
+        currentInput = lastInput;
+        tweener.AddTween(item.transform, item.transform.position, new Vector3(item.transform.position.x, item.transform.position.y + 1, 0f), 0.4f);
+        currentPosY -= 1;
+    }
+
+    private void moveLeft()
+    {
+        animatorController.SetTrigger("Left");
+        currentInput = lastInput;
+        tweener.AddTween(item.transform, item.transform.position, new Vector3(item.transform.position.x - 1, item.transform.position.y, 0f), 0.4f);
+        currentPosX -= 1;
+    }
+
+    private void moveDown()
+    {
+        animatorController.SetTrigger("Down");
+        currentInput = lastInput;
+        tweener.AddTween(item.transform, item.transform.position, new Vector3(item.transform.position.x, item.transform.position.y - 1, 0f), 0.4f);
+        currentPosY += 1;
+    }
+
+    private void moveRight() 
+    {
+        animatorController.SetTrigger("Right");
+        currentInput = lastInput;
+        tweener.AddTween(item.transform, item.transform.position, new Vector3(item.transform.position.x + 1, item.transform.position.y, 0f), 0.4f);
+        currentPosX += 1;
+    }
+
+    private void moveUpCurrent()
+    {
+        animatorController.SetTrigger("Up");
+        tweener.AddTween(item.transform, item.transform.position, new Vector3(item.transform.position.x, item.transform.position.y + 1, 0f), 0.4f);
+        currentPosY -= 1;
+    }
+
+    private void moveLeftCurrent()
+    {
+        animatorController.SetTrigger("Left");
+        tweener.AddTween(item.transform, item.transform.position, new Vector3(item.transform.position.x - 1, item.transform.position.y, 0f), 0.4f);
+        currentPosX -= 1;
+    }
+
+    private void moveDownCurrent()
+    {
+        animatorController.SetTrigger("Down");
+        tweener.AddTween(item.transform, item.transform.position, new Vector3(item.transform.position.x, item.transform.position.y - 1, 0f), 0.4f);
+        currentPosY += 1;
+    }
+
+    private void moveRightCurrent()
+    {
+        animatorController.SetTrigger("Right");
+        tweener.AddTween(item.transform, item.transform.position, new Vector3(item.transform.position.x + 1, item.transform.position.y, 0f), 0.4f);
+        currentPosX += 1;
     }
 
     private bool checkPosition(int checkX, int checkY)
     {
-        Debug.Log(newLevelMap[checkY, checkX]);
+        //Debug.Log(newLevelMap[checkY, checkX]);
         if (newLevelMap[checkY, checkX]== 5 || newLevelMap[checkY, checkX] == 6 || newLevelMap[checkY, checkX] == 0)
         {
             return true;
@@ -249,5 +238,25 @@ public class PacStudentController : MonoBehaviour
         }                
     }
 
-
+    private bool checkPosition(KeyCode key)
+    {
+        switch (key)
+        {
+            case KeyCode.A:
+                return checkPosition(currentPosX - 1, currentPosY);
+                //break;
+            case KeyCode.S:
+                return checkPosition(currentPosX, currentPosY + 1);
+                //break;
+            case KeyCode.D:
+                return checkPosition(currentPosX + 1, currentPosY);
+                //break;
+            case KeyCode.W:
+                return checkPosition(currentPosX, currentPosY - 1);
+                //break;
+            default:
+                return false;
+                //break;
+        }
+    }
 }
