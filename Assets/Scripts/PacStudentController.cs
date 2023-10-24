@@ -90,11 +90,7 @@ public class PacStudentController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("current: " + currentInput + " last: " + lastInput);
-
-        // get current input and assign last input
-        // if current input is not a valid direction, continue going with the last input
-        //
+        //Debug.Log("current: " + currentInput + " last: " + lastInput);
 
         if (Input.GetKeyDown(KeyCode.A))
         {
@@ -119,6 +115,16 @@ public class PacStudentController : MonoBehaviour
             {
                 if (checkPosition(currentInput))
                 {
+                    if(animatorController.enabled == false)
+                    {
+                        animatorController.enabled = true;
+                    }
+
+                    if (!walkingAudio.isPlaying)
+                    {
+                        walkingAudio.Play();
+                    }
+
                     switch (currentInput)
                     {
                         case KeyCode.A:
@@ -142,10 +148,21 @@ public class PacStudentController : MonoBehaviour
                 {
                     lastInput = KeyCode.None;
                     currentInput = KeyCode.None;
+                    walkingAudio.Stop();
+                    animatorController.enabled = false;
                 }
             }
             else
             {
+                if (animatorController.enabled == false)
+                {
+                    animatorController.enabled = true;
+                }
+                if (!walkingAudio.isPlaying)
+                {
+                    walkingAudio.Play();
+                }
+
                 switch (lastInput)
                 {
                     case KeyCode.A:
@@ -227,7 +244,6 @@ public class PacStudentController : MonoBehaviour
 
     private bool checkPosition(int checkX, int checkY)
     {
-        //Debug.Log(newLevelMap[checkY, checkX]);
         if (newLevelMap[checkY, checkX]== 5 || newLevelMap[checkY, checkX] == 6 || newLevelMap[checkY, checkX] == 0)
         {
             return true;
@@ -244,19 +260,14 @@ public class PacStudentController : MonoBehaviour
         {
             case KeyCode.A:
                 return checkPosition(currentPosX - 1, currentPosY);
-                //break;
             case KeyCode.S:
                 return checkPosition(currentPosX, currentPosY + 1);
-                //break;
             case KeyCode.D:
                 return checkPosition(currentPosX + 1, currentPosY);
-                //break;
             case KeyCode.W:
                 return checkPosition(currentPosX, currentPosY - 1);
-                //break;
             default:
                 return false;
-                //break;
         }
     }
 }
