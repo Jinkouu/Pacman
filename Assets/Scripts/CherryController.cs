@@ -7,7 +7,7 @@ public class CherryController : MonoBehaviour
     // Start is called before the first frame update
     public GameObject bonus;
     [SerializeField]
-    private Camera camera;
+    public Camera mainCamera;
     [SerializeField]
     private Tweener tweener;
 
@@ -18,10 +18,10 @@ public class CherryController : MonoBehaviour
 
     void Start()
     {
-        left = camera.ViewportToWorldPoint(new Vector3(0, 0, camera.nearClipPlane)).x - 1;
-        right = camera.ViewportToWorldPoint(new Vector3(1, 1, camera.nearClipPlane)).x + 1;
-        up = camera.ViewportToWorldPoint(new Vector3(1, 1, camera.nearClipPlane)).y + 1;
-        down = camera.ViewportToWorldPoint(new Vector3(0, 0, camera.nearClipPlane)).y - 1;
+        left = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, mainCamera.nearClipPlane)).x - 1;
+        right = mainCamera.ViewportToWorldPoint(new Vector3(1, 1, mainCamera.nearClipPlane)).x + 1;
+        up = mainCamera.ViewportToWorldPoint(new Vector3(1, 1, mainCamera.nearClipPlane)).y + 1;
+        down = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, mainCamera.nearClipPlane)).y - 1;
 
         StartCoroutine(loopSpawn());
     }
@@ -83,32 +83,32 @@ public class CherryController : MonoBehaviour
 
     private Vector3 getEndPos(Vector3 spawnPos)
     {
-        float cameraCentreX = camera.transform.position.x;
-        float cameraCentreY = camera.transform.position.y;
+        float mainCameraCentreX = mainCamera.transform.position.x;
+        float mainCameraCentreY = mainCamera.transform.position.y;
 
         Vector3 endPos = Vector3.zero;
-        float distanceX = Vector2.Distance(new Vector2 (spawnPos.x, spawnPos.y), new Vector2(cameraCentreX, spawnPos.y));
-        float distanceY = Vector2.Distance(new Vector2(spawnPos.x, spawnPos.y), new Vector2(spawnPos.x, cameraCentreY));
+        float distanceX = Vector2.Distance(new Vector2 (spawnPos.x, spawnPos.y), new Vector2(mainCameraCentreX, spawnPos.y));
+        float distanceY = Vector2.Distance(new Vector2(spawnPos.x, spawnPos.y), new Vector2(spawnPos.x, mainCameraCentreY));
 
         float endX = 0;
         float endY = 0;
 
-        if(spawnPos.x < cameraCentreX)
+        if(spawnPos.x < mainCameraCentreX)
         {
-            endX = cameraCentreX + distanceX;
+            endX = mainCameraCentreX + distanceX;
         }
-        else if(spawnPos.x > cameraCentreX)
+        else if(spawnPos.x > mainCameraCentreX)
         {
-            endX = cameraCentreX - distanceX;
+            endX = mainCameraCentreX - distanceX;
         }
 
-        if(spawnPos.y < cameraCentreY)
+        if(spawnPos.y < mainCameraCentreY)
         {
-            endY = cameraCentreY + distanceY;
+            endY = mainCameraCentreY + distanceY;
         }
-        else if(spawnPos.y > cameraCentreY)
+        else if(spawnPos.y > mainCameraCentreY)
         {
-            endY = cameraCentreY - distanceY;
+            endY = mainCameraCentreY - distanceY;
         }
 
         endPos = new Vector3(endX, endY, 0f);

@@ -22499,7 +22499,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &483660215
 Transform:
   m_ObjectHideFlags: 0
@@ -33510,7 +33510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bonus: {fileID: 8696952821419246159, guid: e1fb7ad9731f750468d86678f3752d96, type: 3}
-  camera: {fileID: 1119775406}
+  mainCamera: {fileID: 1119775406}
   tweener: {fileID: 1990255747}
 --- !u!4 &820096564
 Transform:
@@ -64474,7 +64474,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1644327170
 MonoBehaviour:
   m_ObjectHideFlags: 0
