@@ -18,16 +18,7 @@ public class StartScreenAnimator : MonoBehaviour
 
     void Start()
     {
-        try
-        {
-            //tweener = GetComponent<Tweener>();
-            //StartCoroutine(createAndTween());
-            StartCoroutine(loopSpawn());
-        }
-        catch
-        {
-            
-        }
+        StartCoroutine(loopSpawn());
     }
 
     // Update is called once per frame

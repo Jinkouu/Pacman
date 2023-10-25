@@ -23,12 +23,7 @@ public class CherryController : MonoBehaviour
         up = camera.ViewportToWorldPoint(new Vector3(1, 1, camera.nearClipPlane)).y + 1;
         down = camera.ViewportToWorldPoint(new Vector3(0, 0, camera.nearClipPlane)).y - 1;
 
-        try
-        {
-            //tweener = GetComponent<Tweener>();
-            StartCoroutine(loopSpawn());
-        }
-        catch{ }
+        StartCoroutine(loopSpawn());
     }
 
     // Update is called once per frame
@@ -41,8 +36,8 @@ public class CherryController : MonoBehaviour
     {
         while (true)
         {
+            yield return new WaitForSeconds(10f);
             StartCoroutine(spawnCherry());
-            yield return new WaitForSeconds(3f);
         }
     }
 
@@ -75,8 +70,6 @@ public class CherryController : MonoBehaviour
 
 
         GameObject cherry = Instantiate(bonus, spawnPos, Quaternion.identity);
-        cherry.transform.SetParent(transform);
-
         tweener.AddTween(cherry.transform, spawnPos, endPos, 10f);
         
 
