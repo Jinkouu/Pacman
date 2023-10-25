@@ -92,7 +92,6 @@ public class PacStudentController : MonoBehaviour
     void Update()
     {
         //Debug.Log("current: " + currentInput + " last: " + lastInput);
-
         if (Input.GetKeyDown(KeyCode.A))
         {
             lastInput = KeyCode.A;
@@ -138,13 +137,10 @@ public class PacStudentController : MonoBehaviour
                 }
                 else
                 {
-                    lastInput = KeyCode.None;
                     currentInput = KeyCode.None;
                     walkingAudio.Stop();
                     animatorController.enabled = false;
-                    //particles.part;
                     particles.Stop();
-                    //particles.Pause();
                 }
             }
             else
@@ -158,10 +154,10 @@ public class PacStudentController : MonoBehaviour
                     case KeyCode.S:
                         moveDown();
                         break;
-                    case KeyCode.D: 
+                    case KeyCode.D:
                         moveRight();
                         break;
-                    case KeyCode.W: 
+                    case KeyCode.W:
                         moveUp();
                         break;
                 }
@@ -185,7 +181,7 @@ public class PacStudentController : MonoBehaviour
         }
     }
 
-    private void moveUp()
+    public void moveUp()
     {
         animatorController.SetTrigger("Up");
         currentInput = lastInput;
@@ -193,7 +189,7 @@ public class PacStudentController : MonoBehaviour
         currentPosY -= 1;
     }
 
-    private void moveLeft()
+    public void moveLeft()
     {
         animatorController.SetTrigger("Left");
         currentInput = lastInput;
@@ -201,7 +197,7 @@ public class PacStudentController : MonoBehaviour
         currentPosX -= 1;
     }
 
-    private void moveDown()
+    public void moveDown()
     {
         animatorController.SetTrigger("Down");
         currentInput = lastInput;
@@ -209,7 +205,7 @@ public class PacStudentController : MonoBehaviour
         currentPosY += 1;
     }
 
-    private void moveRight() 
+    public void moveRight() 
     {
         animatorController.SetTrigger("Right");
         currentInput = lastInput;
@@ -217,28 +213,28 @@ public class PacStudentController : MonoBehaviour
         currentPosX += 1;
     }
 
-    private void moveUpCurrent()
+    public void moveUpCurrent()
     {
         animatorController.SetTrigger("Up");
         tweener.AddTween(item.transform, item.transform.position, new Vector3(item.transform.position.x, item.transform.position.y + 1, 0f), 0.4f);
         currentPosY -= 1;
     }
 
-    private void moveLeftCurrent()
+    public void moveLeftCurrent()
     {
         animatorController.SetTrigger("Left");
         tweener.AddTween(item.transform, item.transform.position, new Vector3(item.transform.position.x - 1, item.transform.position.y, 0f), 0.4f);
         currentPosX -= 1;
     }
 
-    private void moveDownCurrent()
+    public void moveDownCurrent()
     {
         animatorController.SetTrigger("Down");
         tweener.AddTween(item.transform, item.transform.position, new Vector3(item.transform.position.x, item.transform.position.y - 1, 0f), 0.4f);
         currentPosY += 1;
     }
 
-    private void moveRightCurrent()
+    public void moveRightCurrent()
     {
         animatorController.SetTrigger("Right");
         tweener.AddTween(item.transform, item.transform.position, new Vector3(item.transform.position.x + 1, item.transform.position.y, 0f), 0.4f);

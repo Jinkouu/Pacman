@@ -24,7 +24,7 @@ public class StartScreenAnimator : MonoBehaviour
             //StartCoroutine(createAndTween());
             StartCoroutine(loopSpawn());
         }
-        catch (Exception e)
+        catch
         {
             
         }
