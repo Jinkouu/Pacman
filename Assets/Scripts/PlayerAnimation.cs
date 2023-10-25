@@ -19,7 +19,7 @@ public class PlayerAnimation : MonoBehaviour
             StartCoroutine(movement());
             walkingAudio.Play();
         }
-        catch(Exception e){
+        catch(Exception){
 
         }
     }

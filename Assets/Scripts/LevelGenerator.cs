@@ -240,10 +240,8 @@ public class LevelGenerator : MonoBehaviour
                             break;
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    
-
                 }
             }
         }
@@ -381,7 +379,7 @@ public class LevelGenerator : MonoBehaviour
                             break;
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     try
                     {
@@ -458,7 +456,7 @@ public class LevelGenerator : MonoBehaviour
 
                         }
                     }
-                    catch (Exception g)
+                    catch (Exception)
                     {
 
                     }
