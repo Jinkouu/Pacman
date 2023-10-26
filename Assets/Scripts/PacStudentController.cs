@@ -9,6 +9,7 @@ public class PacStudentController : MonoBehaviour
     public Tweener tweener;
     public Animator animatorController;
     public AudioSource walkingAudio;
+    public AudioClip[] walkingSounds;
     public ParticleSystem particles;
 
     private int currentPosX;
@@ -173,6 +174,8 @@ public class PacStudentController : MonoBehaviour
         }
         if (!walkingAudio.isPlaying)
         {
+            //walkingAudio.Play();
+            walkingAudio.clip = walkingSounds[0];
             walkingAudio.Play();
         }
         if (!particles.isPlaying)
