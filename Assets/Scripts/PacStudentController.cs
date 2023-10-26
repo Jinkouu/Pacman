@@ -8,15 +8,16 @@ public class PacStudentController : MonoBehaviour
     [SerializeField] private GameObject item;
     public Tweener tweener;
     public Animator animatorController;
-    public AudioSource walkingAudio;
-    public AudioClip[] walkingSounds;
-    public ParticleSystem particles;
+    public AudioSource audioSource;
+    public AudioClip[] audioClips;
+    public ParticleSystem walkParticles;
+    public ParticleSystem collisionParticles;
 
     private int currentPosX;
     private int currentPosY;
 
-    private KeyCode lastInput;
-    private KeyCode currentInput;
+    private KeyCode lastInput = KeyCode.None;
+    private KeyCode currentInput = KeyCode.None;
 
     // Start is called before the first frame update
     void Start()
@@ -89,6 +90,9 @@ public class PacStudentController : MonoBehaviour
         }
     }
 
+    private bool hasCollided = false;
+    private bool startedMoving = false;
+
     // Update is called once per frame
     void Update()
     {
@@ -116,6 +120,8 @@ public class PacStudentController : MonoBehaviour
             {
                 if (checkPosition(currentInput))
                 {
+                    startedMoving = true;
+                    hasCollided = false;
                     startMoving();
                     switch (currentInput)
                     {
@@ -135,17 +141,26 @@ public class PacStudentController : MonoBehaviour
                             lastInput = KeyCode.None;
                             break;
                     }
+                    
                 }
                 else
                 {
                     currentInput = KeyCode.None;
-                    walkingAudio.Stop();
+                    audioSource.Stop();
                     animatorController.enabled = false;
-                    particles.Stop();
+                    walkParticles.Stop();
+                    
+                    if (hasCollided == false && startedMoving == true)
+                    {
+                        hasCollided = true;
+                        wallCollision(lastInput);
+                    }
                 }
             }
             else
             {
+                startedMoving = true;
+                hasCollided = false;
                 startMoving();
                 switch (lastInput)
                 {
@@ -166,21 +181,59 @@ public class PacStudentController : MonoBehaviour
         }
     }
 
+    private void wallCollision(KeyCode key)
+    {
+        float collisionX = 0;
+        float collisionY = 0;
+        switch (key)
+        {
+            case KeyCode.A:
+                collisionX = item.transform.position.x - 0.5f;
+                collisionY = item.transform.position.y;
+                break;
+            case KeyCode.S:
+                collisionX = item.transform.position.x;
+                collisionY = item.transform.position.y + 0.5f;
+                break;
+            case KeyCode.D:
+                collisionX = item.transform.position.x + 0.5f;
+                collisionY = currentPosY;
+                break;
+            case KeyCode.W:
+                collisionX = item.transform.position.x;
+                collisionY = item.transform.position.y - 0.5f;
+                break;
+        }
+        Vector3 collisionPoint = new Vector3(collisionX, collisionY, 0);
+        ParticleSystem newCollisionParticles = Instantiate(collisionParticles, collisionPoint, Quaternion.identity);
+        audioSource.clip = audioClips[2];
+        audioSource.Play();
+        wait();
+        Destroy(newCollisionParticles.gameObject);
+        audioSource.Stop();
+        return;
+    }
+    
+    IEnumerator wait()
+    {
+        yield return new WaitForSeconds(0.1f);
+    }
+
     private void startMoving()
     {
         if (animatorController.enabled == false)
         {
             animatorController.enabled = true;
         }
-        if (!walkingAudio.isPlaying)
+        if (!audioSource.isPlaying || audioSource.clip != audioClips[0])
         {
-            //walkingAudio.Play();
-            walkingAudio.clip = walkingSounds[0];
-            walkingAudio.Play();
+            //audioSource.Play();
+            audioSource.clip = audioClips[0];
+            audioSource.Play();
         }
-        if (!particles.isPlaying)
+        if (!walkParticles.isPlaying)
         {
-            particles.Play();
+            walkParticles.Play();
         }
     }
 
@@ -256,6 +309,32 @@ public class PacStudentController : MonoBehaviour
         }                
     }
 
+    //private int[] getPosition(KeyCode key)
+    //{
+    //    int[] position = new int[2];
+    //    switch (key)
+    //    {
+    //        case KeyCode.A:
+    //            position[0] = currentPosX - 1;
+    //            position[1] = currentPosY;
+    //            return position;
+    //        case KeyCode.S:
+    //            position[0] = currentPosX;
+    //            position[1] = currentPosY + 1;
+    //            return position;
+    //        case KeyCode.D:
+    //            position[0] = currentPosX + 1;
+    //            position[1] = currentPosY;
+    //            return position;
+    //        case KeyCode.W:
+    //            position[0] = currentPosX;
+    //            position[1] = currentPosY - 1;
+    //            return position;
+    //        default:
+    //            return null;
+    //    }
+    //}
+
     private bool checkPosition(KeyCode key)
     {
         switch (key)
@@ -272,4 +351,15 @@ public class PacStudentController : MonoBehaviour
                 return false;
         }
     }
+
+
+
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.CompareTag("Wall 1") || other.CompareTag("Wall 2") || other.CompareTag("Wall 3") || other.CompareTag("Wall 4") || other.CompareTag("Wall 7"))
+    //    {
+    //
+    //    }
+    //}
+
 }
