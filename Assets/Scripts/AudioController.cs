@@ -6,6 +6,7 @@ public class AudioController : MonoBehaviour
 {
     public AudioSource normal;
     public AudioSource intro;
+    public AudioSource scared;
 
     // Start is called before the first frame update
     void Start()
@@ -18,5 +19,20 @@ public class AudioController : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void playScared()
+    {
+        intro.Stop();
+        normal.Stop();
+        StartCoroutine(scaredTimer());
+    }
+
+    IEnumerator scaredTimer()
+    {
+        scared.Play();
+        yield return new WaitForSeconds(10f);
+        scared.Stop();
+        normal.Play();
     }
 }

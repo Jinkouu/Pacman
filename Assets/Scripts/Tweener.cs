@@ -50,10 +50,19 @@ public class Tweener : MonoBehaviour
 
     public bool TweenExists(Transform target)
     {
+
         foreach (Tween activeTween in activeTweens)
         {
-            if (activeTween.Target.transform == target)
-                return true;
+            try
+            {
+                if (activeTween.Target.transform == target)
+                    return true;
+            }
+            catch //when the object (the cherry) is destroyed prematurely
+            {
+                activeTweens.Remove(activeTween);
+                return false;
+            }
         }
         return false;
     }

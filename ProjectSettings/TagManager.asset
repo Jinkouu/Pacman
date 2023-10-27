@@ -14,6 +14,13 @@ TagManager:
   - uiPellet
   - rightTeleporter
   - leftTeleporter
+  - Score
+  - Timer
+  - GhostTimer
+  - gamePellet
+  - powerPellet
+  - Cherry
+  - audioController
   layers:
   - Default
   - TransparentFX

@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using static UnityEditor.Progress;
 
 public class PacStudentController : MonoBehaviour
@@ -368,21 +370,40 @@ public class PacStudentController : MonoBehaviour
         }
     }
 
-
+    public float score = 0;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        //if (other.CompareTag("leftTeleporter"))
-        //{
-        //    item.transform.position = new Vector2(27f, item.transform.position.y);
-        //    currentPosX = 26;
-        //    currentInput = KeyCode.A;
-        //}
-        //else if (other.CompareTag("rightTeleporter"))
-        //{
-        //    tweener.AddTween(item.transform, item.transform.position, new Vector3(0f, item.transform.position.y, 0), 1f);
-        //    currentInput = KeyCode.D;
-        //    currentPosX = 1;
-        //}
+        if (other.CompareTag("gamePellet"))
+        {
+            audioSource.clip = audioClips[1];
+            audioSource.Play();
+            score += 10;
+            GameObject scoreObject = GameObject.FindGameObjectWithTag("Score");
+            if (scoreObject != null)
+            {
+                Text scoreText = scoreObject.GetComponent<Text>();
+                scoreText.text = score.ToString();
+            }
+            Destroy(other.gameObject);
+        }
+        else if (other.CompareTag("Cherry"))
+        {
+            score += 100;
+            GameObject scoreObject = GameObject.FindGameObjectWithTag("Score");
+            if (scoreObject != null)
+            {
+                Text scoreText = scoreObject.GetComponent<Text>();
+                scoreText.text = score.ToString();
+            }
+            Destroy(other.gameObject);
+        }
+        else if (other.CompareTag("powerPellet"))
+        {
+            Destroy(other.gameObject);
+            GameObject audioController = GameObject.FindGameObjectWithTag("audioController");
+            AudioController controller = audioController.GetComponent<AudioController>();
+            controller.playScared();
+        }
     }
 }
