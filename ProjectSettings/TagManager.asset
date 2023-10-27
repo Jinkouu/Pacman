@@ -12,6 +12,8 @@ TagManager:
   - Wall 6
   - Wall 7
   - uiPellet
+  - rightTeleporter
+  - leftTeleporter
   layers:
   - Default
   - TransparentFX

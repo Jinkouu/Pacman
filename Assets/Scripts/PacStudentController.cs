@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class PacStudentController : MonoBehaviour
 {
@@ -294,14 +295,34 @@ public class PacStudentController : MonoBehaviour
 
     private bool checkPosition(int checkX, int checkY)
     {
-        if (newLevelMap[checkY, checkX]== 5 || newLevelMap[checkY, checkX] == 6 || newLevelMap[checkY, checkX] == 0)
+        try
         {
-            return true;
+            if (newLevelMap[checkY, checkX] == 5 || newLevelMap[checkY, checkX] == 6 || newLevelMap[checkY, checkX] == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
-        else
+        catch
         {
+            //where the teleporters are
+            if(item.transform.position.x == 0)
+            {
+                item.transform.position = new Vector3(27f, -14, 0);
+                currentPosX = 27;
+                return true;
+            }
+            else if(item.transform.position.x == 27)
+            {
+                item.transform.position = new Vector3(0f, -14, 0);
+                currentPosX = 0;
+                return true;
+            }
             return false;
-        }                
+        }              
     }
 
     //private int[] getPosition(KeyCode key)
@@ -349,12 +370,19 @@ public class PacStudentController : MonoBehaviour
 
 
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.CompareTag("Wall 1") || other.CompareTag("Wall 2") || other.CompareTag("Wall 3") || other.CompareTag("Wall 4") || other.CompareTag("Wall 7"))
-    //    {
-    //
-    //    }
-    //}
-
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        //if (other.CompareTag("leftTeleporter"))
+        //{
+        //    item.transform.position = new Vector2(27f, item.transform.position.y);
+        //    currentPosX = 26;
+        //    currentInput = KeyCode.A;
+        //}
+        //else if (other.CompareTag("rightTeleporter"))
+        //{
+        //    tweener.AddTween(item.transform, item.transform.position, new Vector3(0f, item.transform.position.y, 0), 1f);
+        //    currentInput = KeyCode.D;
+        //    currentPosX = 1;
+        //}
+    }
 }
