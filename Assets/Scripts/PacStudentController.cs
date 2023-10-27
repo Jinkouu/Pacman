@@ -146,14 +146,14 @@ public class PacStudentController : MonoBehaviour
                 else
                 {
                     currentInput = KeyCode.None;
-                    audioSource.Stop();
+                    //audioSource.Stop();
                     animatorController.enabled = false;
                     walkParticles.Stop();
                     
                     if (hasCollided == false && startedMoving == true)
                     {
                         hasCollided = true;
-                        wallCollision(lastInput);
+                        StartCoroutine(wallCollision(lastInput));
                     }
                 }
             }
@@ -181,7 +181,7 @@ public class PacStudentController : MonoBehaviour
         }
     }
 
-    private void wallCollision(KeyCode key)
+    IEnumerator wallCollision(KeyCode key)
     {
         float collisionX = 0;
         float collisionY = 0;
@@ -197,26 +197,21 @@ public class PacStudentController : MonoBehaviour
                 break;
             case KeyCode.D:
                 collisionX = item.transform.position.x + 0.5f;
-                collisionY = currentPosY;
+                collisionY = item.transform.position.y;
                 break;
             case KeyCode.W:
                 collisionX = item.transform.position.x;
                 collisionY = item.transform.position.y - 0.5f;
                 break;
         }
+
         Vector3 collisionPoint = new Vector3(collisionX, collisionY, 0);
         ParticleSystem newCollisionParticles = Instantiate(collisionParticles, collisionPoint, Quaternion.identity);
         audioSource.clip = audioClips[2];
         audioSource.Play();
-        wait();
+        yield return new WaitForSeconds(1f);
         Destroy(newCollisionParticles.gameObject);
         audioSource.Stop();
-        return;
-    }
-    
-    IEnumerator wait()
-    {
-        yield return new WaitForSeconds(0.1f);
     }
 
     private void startMoving()
