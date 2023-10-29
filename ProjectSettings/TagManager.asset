@@ -21,6 +21,7 @@ TagManager:
   - powerPellet
   - Cherry
   - audioController
+  - GhostController
   layers:
   - Default
   - TransparentFX

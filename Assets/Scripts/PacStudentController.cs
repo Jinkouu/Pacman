@@ -404,6 +404,9 @@ public class PacStudentController : MonoBehaviour
             GameObject audioController = GameObject.FindGameObjectWithTag("audioController");
             AudioController controller = audioController.GetComponent<AudioController>();
             controller.playScared();
+            GameObject timers = GameObject.FindGameObjectWithTag("GhostTimer");
+            TimerController timer = timers.GetComponent<TimerController>();
+            timer.countdown();
         }
     }
 }
