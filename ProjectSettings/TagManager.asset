@@ -22,6 +22,8 @@ TagManager:
   - Cherry
   - audioController
   - GhostController
+  - Ghost
+  - livesController
   layers:
   - Default
   - TransparentFX

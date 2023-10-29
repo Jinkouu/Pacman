@@ -13,8 +13,10 @@ public class PacStudentController : MonoBehaviour
     public Animator animatorController;
     public AudioSource audioSource;
     public AudioClip[] audioClips;
+
     public ParticleSystem walkParticles;
     public ParticleSystem collisionParticles;
+    public ParticleSystem deathParticles;
 
     private int currentPosX;
     private int currentPosY;
@@ -150,7 +152,11 @@ public class PacStudentController : MonoBehaviour
                 {
                     currentInput = KeyCode.None;
                     //audioSource.Stop();
-                    animatorController.enabled = false;
+                    if (!isDying)
+                    {
+                        animatorController.enabled = false;
+                    }
+                    //animatorController.enabled = false;
                     walkParticles.Stop();
                     
                     if (hasCollided == false && startedMoving == true)
@@ -408,5 +414,31 @@ public class PacStudentController : MonoBehaviour
             TimerController timer = timers.GetComponent<TimerController>();
             timer.countdown();
         }
+        else if (other.CompareTag("Ghost"))
+        {
+            currentInput = KeyCode.None;
+            lastInput = KeyCode.None;
+            isDying = true;
+            GameObject livesController = GameObject.FindGameObjectWithTag("livesController");
+            LivesController controller = livesController.GetComponent<LivesController>();
+            controller.reduceLife();
+            StartCoroutine(handleDeath());
+        }
+    }
+
+    private bool isDying = false;
+    IEnumerator handleDeath()
+    {
+        startedMoving = false;
+        deathParticles.gameObject.transform.position = item.transform.position;
+        deathParticles.Play();
+        animatorController.enabled = true;
+        animatorController.SetTrigger("Death");
+        yield return new WaitForSeconds(1.5f);
+        animatorController.SetTrigger("Down");
+        item.transform.position = new Vector3(1, -1, 0);
+        currentPosX = 1;
+        currentPosY = 1;
+        isDying = false;
     }
 }
