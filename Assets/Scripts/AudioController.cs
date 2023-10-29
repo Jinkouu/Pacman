@@ -20,14 +20,26 @@ public class AudioController : MonoBehaviour
         float introLength = clips[0].length;
         yield return new WaitForSeconds(introLength);
         source.Stop();
-        source.clip = clips[1];
-        source.Play();
+        source.loop = true;
+        //source.clip = clips[1];
+        //source.Play();
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+    public void stopAudio()
+    {
+        source.Stop();
+    }
+
+    public void playNormal()
+    {
+        source.Stop();
+        source.clip = clips[1];
+        source.Play();
     }
 
     public void playScared()

@@ -30,6 +30,7 @@ public class PacStudentController : MonoBehaviour
         currentPosX = 1;
         currentPosY = 1;
         convertLevel(levelMap);
+        StartCoroutine(roundStart());
     }
     int[,] levelMap =
             {
@@ -97,94 +98,98 @@ public class PacStudentController : MonoBehaviour
 
     private bool hasCollided = false;
     private bool startedMoving = false;
+    private bool canMove = false;
 
     // Update is called once per frame
     void Update()
     {
         //Debug.Log("current: " + currentInput + " last: " + lastInput);
-        if (Input.GetKeyDown(KeyCode.A))
+        if (canMove)
         {
-            lastInput = KeyCode.A;
-        }
-        else if (Input.GetKeyDown(KeyCode.S))
-        {
-            lastInput = KeyCode.S;
-        }
-        else if (Input.GetKeyDown(KeyCode.D))
-        {
-            lastInput = KeyCode.D;
-        }
-        else if (Input.GetKeyDown(KeyCode.W))
-        {
-            lastInput = KeyCode.W;
-        }
-
-        if (!tweener.TweenExists(item.transform))
-        {
-            if (!checkPosition(lastInput))
+            if (Input.GetKeyDown(KeyCode.A))
             {
-                if (checkPosition(currentInput))
+                lastInput = KeyCode.A;
+            }
+            else if (Input.GetKeyDown(KeyCode.S))
+            {
+                lastInput = KeyCode.S;
+            }
+            else if (Input.GetKeyDown(KeyCode.D))
+            {
+                lastInput = KeyCode.D;
+            }
+            else if (Input.GetKeyDown(KeyCode.W))
+            {
+                lastInput = KeyCode.W;
+            }
+
+            if (!tweener.TweenExists(item.transform))
+            {
+                if (!checkPosition(lastInput))
+                {
+                    if (checkPosition(currentInput))
+                    {
+                        startedMoving = true;
+                        hasCollided = false;
+                        startMoving();
+                        switch (currentInput)
+                        {
+                            case KeyCode.A:
+                                moveLeftCurrent();
+                                break;
+                            case KeyCode.S:
+                                moveDownCurrent();
+                                break;
+                            case KeyCode.D:
+                                moveRightCurrent();
+                                break;
+                            case KeyCode.W:
+                                moveUpCurrent();
+                                break;
+                            default:
+                                lastInput = KeyCode.None;
+                                break;
+                        }
+
+                    }
+                    else
+                    {
+                        currentInput = KeyCode.None;
+                        //audioSource.Stop();
+                        if (!isDying)
+                        {
+                            animatorController.enabled = false;
+                        }
+                        //animatorController.enabled = false;
+                        walkParticles.Stop();
+
+                        if (hasCollided == false && startedMoving == true)
+                        {
+                            hasCollided = true;
+                            StartCoroutine(wallCollision(lastInput));
+                        }
+                    }
+                }
+                else
                 {
                     startedMoving = true;
                     hasCollided = false;
                     startMoving();
-                    switch (currentInput)
+                    switch (lastInput)
                     {
                         case KeyCode.A:
-                            moveLeftCurrent();
+                            moveLeft();
                             break;
                         case KeyCode.S:
-                            moveDownCurrent();
+                            moveDown();
                             break;
                         case KeyCode.D:
-                            moveRightCurrent();
+                            moveRight();
                             break;
                         case KeyCode.W:
-                            moveUpCurrent();
-                            break;
-                        default:
-                            lastInput = KeyCode.None;
+                            moveUp();
                             break;
                     }
-                    
-                }
-                else
-                {
-                    currentInput = KeyCode.None;
-                    //audioSource.Stop();
-                    if (!isDying)
-                    {
-                        animatorController.enabled = false;
-                    }
-                    //animatorController.enabled = false;
-                    walkParticles.Stop();
-                    
-                    if (hasCollided == false && startedMoving == true)
-                    {
-                        hasCollided = true;
-                        StartCoroutine(wallCollision(lastInput));
-                    }
-                }
-            }
-            else
-            {
-                startedMoving = true;
-                hasCollided = false;
-                startMoving();
-                switch (lastInput)
-                {
-                    case KeyCode.A:
-                        moveLeft();
-                        break;
-                    case KeyCode.S:
-                        moveDown();
-                        break;
-                    case KeyCode.D:
-                        moveRight();
-                        break;
-                    case KeyCode.W:
-                        moveUp();
-                        break;
                 }
             }
         }
@@ -419,7 +424,8 @@ public class PacStudentController : MonoBehaviour
             if(other.GetComponentInParent<GhostController>() != null)
             {
                 GhostController ghostController = other.GetComponentInParent<GhostController>();
-                if (ghostController.isNormal){
+                if (ghostController.isNormal){ //pacman dies
+                    firstRound = false;
                     currentInput = KeyCode.None;
                     lastInput = KeyCode.None;
                     isDying = true;
@@ -461,5 +467,30 @@ public class PacStudentController : MonoBehaviour
         currentPosX = 1;
         currentPosY = 1;
         isDying = false;
+        StartCoroutine(roundStart());
+    }
+    private bool firstRound = true;
+
+    IEnumerator roundStart()
+    {
+        GameObject audioController = GameObject.FindGameObjectWithTag("audioController");
+        AudioController controller = audioController.GetComponent<AudioController>();
+        if (!firstRound)
+        {
+            controller.stopAudio();
+        }
+        GameObject countObject = GameObject.FindGameObjectWithTag("Countdown");
+        Text countText = countObject.GetComponent<Text>();
+        countText.text = "3";
+        yield return new WaitForSeconds(1f);
+        countText.text = "2";
+        yield return new WaitForSeconds(1f);
+        countText.text = "1";
+        yield return new WaitForSeconds(1f);
+        countText.text = "GO!";
+        yield return new WaitForSeconds(1f);
+        canMove = true;
+        countText.text = "";
+        controller.playNormal();
     }
 }

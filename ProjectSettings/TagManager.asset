@@ -24,6 +24,7 @@ TagManager:
   - GhostController
   - Ghost
   - livesController
+  - Countdown
   layers:
   - Default
   - TransparentFX

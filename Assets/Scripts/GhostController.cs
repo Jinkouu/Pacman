@@ -82,6 +82,7 @@ public class GhostController : MonoBehaviour
 
     public void deadState(GameObject ghost)
     {
+        ghost.GetComponent<BoxCollider2D>().enabled = false;
         Animator animatorController = ghost.GetComponent<Animator>();
         animatorController.SetTrigger("DeadUp");
     }
@@ -96,5 +97,6 @@ public class GhostController : MonoBehaviour
         Animator animatorController = ghost.GetComponent<Animator>();
         yield return new WaitForSeconds(5f);
         animatorController.SetTrigger("Up");
+        ghost.GetComponent<BoxCollider2D>().enabled = true;
     }
 }
