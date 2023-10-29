@@ -42,7 +42,6 @@ public class GhostController : MonoBehaviour
     public bool isRecovery = false;
     public void recoveryState()
     {
-        Debug.Log("bb");
         isScared = false;
         isRecovery = true;
         foreach (var ghost in ghosts)
@@ -56,7 +55,6 @@ public class GhostController : MonoBehaviour
 
     public void normalState()
     {
-        Debug.Log("aa");
         isRecovery = false;
         isNormal = true;
         foreach (var ghost in ghosts)
@@ -80,5 +78,23 @@ public class GhostController : MonoBehaviour
             animatorController.SetTrigger("Left");
             yield return new WaitForSeconds(2f);
         }
+    }
+
+    public void deadState(GameObject ghost)
+    {
+        Animator animatorController = ghost.GetComponent<Animator>();
+        animatorController.SetTrigger("DeadUp");
+    }
+
+    public void ghostTimer(GameObject ghost)
+    {
+        StartCoroutine(ghostTimers(ghost));
+    }
+
+    IEnumerator ghostTimers(GameObject ghost)
+    {
+        Animator animatorController = ghost.GetComponent<Animator>();
+        yield return new WaitForSeconds(5f);
+        animatorController.SetTrigger("Up");
     }
 }

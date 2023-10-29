@@ -428,6 +428,21 @@ public class PacStudentController : MonoBehaviour
                     controller.reduceLife();
                     StartCoroutine(handleDeath());
                 }
+                else
+                {
+                    ghostController.deadState(other.gameObject);
+                    score += 300;
+                    GameObject scoreObject = GameObject.FindGameObjectWithTag("Score");
+                    if (scoreObject != null)
+                    {
+                        Text scoreText = scoreObject.GetComponent<Text>();
+                        scoreText.text = score.ToString();
+                    }
+                    GameObject audioController = GameObject.FindGameObjectWithTag("audioController");
+                    AudioController controller = audioController.GetComponent<AudioController>();
+                    controller.playDead();
+                    ghostController.ghostTimer(other.gameObject);
+                }
             }
         }
     }

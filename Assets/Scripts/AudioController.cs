@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class AudioController : MonoBehaviour
 {
-    public AudioSource normal;
-    public AudioSource intro;
-    public AudioSource scared;
+    public AudioSource source;
+    public AudioClip[] clips;
 
     // Start is called before the first frame update
     void Start()
     {
-        intro.Play();
-        normal.PlayDelayed(intro.clip.length+1);
+        StartCoroutine(playIntro());
+    }
+
+    IEnumerator playIntro()
+    {
+        source.clip = clips[0];
+        source.Play();
+        float introLength = clips[0].length;
+        yield return new WaitForSeconds(introLength);
+        source.Stop();
+        source.clip = clips[1];
+        source.Play();
     }
 
     // Update is called once per frame
@@ -23,16 +32,33 @@ public class AudioController : MonoBehaviour
 
     public void playScared()
     {
-        intro.Stop();
-        normal.Stop();
         StartCoroutine(scaredTimer());
     }
 
     IEnumerator scaredTimer()
     {
-        scared.Play();
+        source.Stop();
+        source.clip = clips[2];
+        source.Play();
         yield return new WaitForSeconds(10f);
-        scared.Stop();
-        normal.Play();
+        source.Stop();
+        source.clip = clips[1];
+        source.Play();
+    }
+
+    public void playDead()
+    {
+        StartCoroutine(deadTimer());
+    }
+
+    IEnumerator deadTimer()
+    {
+        source.Stop();
+        source.clip = clips[3];
+        source.Play();
+        yield return new WaitForSeconds(5f);
+        source.Stop();
+        source.clip = clips[1];
+        source.Play();
     }
 }
