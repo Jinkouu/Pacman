@@ -432,6 +432,9 @@ public class PacStudentController : MonoBehaviour
                     GameObject livesController = GameObject.FindGameObjectWithTag("livesController");
                     LivesController controller = livesController.GetComponent<LivesController>();
                     controller.reduceLife();
+                    GameObject timerObject = GameObject.FindGameObjectWithTag("Timer");
+                    GameTimerController gameTimerController = timerObject.GetComponent<GameTimerController>();
+                    gameTimerController.stopTimer();
                     StartCoroutine(handleDeath());
                 }
                 else
@@ -473,6 +476,8 @@ public class PacStudentController : MonoBehaviour
 
     IEnumerator roundStart()
     {
+        GameObject timerObject = GameObject.FindGameObjectWithTag("Timer");
+        GameTimerController gameTimerController = timerObject.GetComponent<GameTimerController>();
         GameObject audioController = GameObject.FindGameObjectWithTag("audioController");
         AudioController controller = audioController.GetComponent<AudioController>();
         if (!firstRound)
@@ -492,5 +497,6 @@ public class PacStudentController : MonoBehaviour
         canMove = true;
         countText.text = "";
         controller.playNormal();
+        gameTimerController.startTimer();
     }
 }
