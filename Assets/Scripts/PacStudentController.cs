@@ -416,13 +416,19 @@ public class PacStudentController : MonoBehaviour
         }
         else if (other.CompareTag("Ghost"))
         {
-            currentInput = KeyCode.None;
-            lastInput = KeyCode.None;
-            isDying = true;
-            GameObject livesController = GameObject.FindGameObjectWithTag("livesController");
-            LivesController controller = livesController.GetComponent<LivesController>();
-            controller.reduceLife();
-            StartCoroutine(handleDeath());
+            if(other.GetComponentInParent<GhostController>() != null)
+            {
+                GhostController ghostController = other.GetComponentInParent<GhostController>();
+                if (ghostController.isNormal){
+                    currentInput = KeyCode.None;
+                    lastInput = KeyCode.None;
+                    isDying = true;
+                    GameObject livesController = GameObject.FindGameObjectWithTag("livesController");
+                    LivesController controller = livesController.GetComponent<LivesController>();
+                    controller.reduceLife();
+                    StartCoroutine(handleDeath());
+                }
+            }
         }
     }
 
