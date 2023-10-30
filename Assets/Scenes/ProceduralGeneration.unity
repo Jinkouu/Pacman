@@ -10284,7 +10284,7 @@ GameObject:
   - component: {fileID: 332579074}
   - component: {fileID: 332579073}
   m_Layer: 0
-  m_Name: Managersa
+  m_Name: Managers
   m_TagString: Managers
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
