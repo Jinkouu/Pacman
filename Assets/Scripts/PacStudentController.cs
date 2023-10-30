@@ -5,6 +5,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using static UnityEditor.Progress;
+using UnityEngine.SceneManagement;
+using UnityEditor.Animations;
 
 public class PacStudentController : MonoBehaviour
 {
@@ -29,72 +31,14 @@ public class PacStudentController : MonoBehaviour
     {
         currentPosX = 1;
         currentPosY = 1;
-        convertLevel(levelMap);
+        //convertLevel(levelMap);
+        GameObject levelObj = GameObject.FindGameObjectWithTag("LevelMap");
+        LevelMap controller = levelObj.GetComponent<LevelMap>();
+        newLevelMap = controller.getLevel();
+
         StartCoroutine(roundStart());
     }
-    int[,] levelMap =
-            {
-                {1,2,2,2,2,2,2,2,2,2,2,2,2,7},
-                {2,5,5,5,5,5,5,5,5,5,5,5,5,4},
-                {2,5,3,4,4,3,5,3,4,4,4,3,5,4},
-                {2,6,4,0,0,4,5,4,0,0,0,4,5,4},
-                {2,5,3,4,4,3,5,3,4,4,4,3,5,3},
-                {2,5,5,5,5,5,5,5,5,5,5,5,5,5},
-                {2,5,3,4,4,3,5,3,3,5,3,4,4,4},
-                {2,5,3,4,4,3,5,4,4,5,3,4,4,3},
-                {2,5,5,5,5,5,5,4,4,5,5,5,5,4},
-                {1,2,2,2,2,1,5,4,3,4,4,3,0,4},
-                {0,0,0,0,0,2,5,4,3,4,4,3,0,3},
-                {0,0,0,0,0,2,5,4,4,0,0,0,0,0},
-                {0,0,0,0,0,2,5,4,4,0,3,4,4,0},
-                {2,2,2,2,2,1,5,3,3,0,4,0,0,0},
-                {0,0,0,0,0,0,5,0,0,0,4,0,0,0},
-            };
-
     private int[,] newLevelMap;
-
-    private void convertLevel(int[,] levelMap)
-    {
-        int rows = levelMap.GetLength(0);
-        int cols = levelMap.GetLength(1);
-
-        int newRows = 2 * rows;
-        int newCols = 2 * cols;
-
-        newLevelMap = new int[newRows, newCols];
-        //top left
-        for (int y = 0; y < rows; y++)
-        {
-            for (int x = 0; x < cols; x++)
-            {
-                newLevelMap[y, x] = levelMap[y, x];
-            }
-        }
-        //top right
-        for (int y = 0; y < rows; y++)
-        {
-            for (int x = 0; x < cols; x++)
-            {
-                newLevelMap[y, newCols - 1 - x] = levelMap[y, x];
-            }
-        }
-        //bottom left
-        for (int y = 0; y < rows; y++)
-        {
-            for (int x = 0; x < cols; x++)
-            {
-                newLevelMap[newRows - 2 - y, x] = levelMap[y, x];
-            }
-        }
-        //bottom right
-        for (int y = 0; y < rows; y++)
-        {
-            for (int x = 0; x < cols; x++)
-            {
-                newLevelMap[newRows - 2 - y, newCols - 1 - x] = levelMap[y, x];
-            }
-        }
-    }
 
     private bool hasCollided = false;
     private bool startedMoving = false;
@@ -396,7 +340,15 @@ public class PacStudentController : MonoBehaviour
                 Text scoreText = scoreObject.GetComponent<Text>();
                 scoreText.text = score.ToString();
             }
+            GameObject pelletObj = GameObject.FindGameObjectWithTag("PelletController");
+            PelletController pelletController = pelletObj.GetComponent<PelletController>();
+            pelletController.reducePellet();
             Destroy(other.gameObject);
+
+            if(pelletController.getPelletCount() == 0)
+            {
+                StartCoroutine(handleGameOver());
+            }
         }
         else if (other.CompareTag("Cherry"))
         {
@@ -425,12 +377,17 @@ public class PacStudentController : MonoBehaviour
             {
                 GhostController ghostController = other.GetComponentInParent<GhostController>();
                 if (ghostController.isNormal){ //pacman dies
+                    GameObject livesController = GameObject.FindGameObjectWithTag("livesController");
+                    LivesController controller = livesController.GetComponent<LivesController>();
+                    if(controller.getLives() <= 0)
+                    {
+                        StartCoroutine(handleGameOver());
+                    }
                     firstRound = false;
                     currentInput = KeyCode.None;
                     lastInput = KeyCode.None;
                     isDying = true;
-                    GameObject livesController = GameObject.FindGameObjectWithTag("livesController");
-                    LivesController controller = livesController.GetComponent<LivesController>();
+                    
                     controller.reduceLife();
                     GameObject timerObject = GameObject.FindGameObjectWithTag("Timer");
                     GameTimerController gameTimerController = timerObject.GetComponent<GameTimerController>();
@@ -454,6 +411,32 @@ public class PacStudentController : MonoBehaviour
                 }
             }
         }
+    }
+
+    IEnumerator handleGameOver()
+    {
+        //end game when pellets is 0
+        GameObject timerObject = GameObject.FindGameObjectWithTag("Timer");
+        GameTimerController gameTimerController = timerObject.GetComponent<GameTimerController>();
+        gameTimerController.stopTimer();
+
+        //stop ghosts
+        GameObject ghostsObj = GameObject.FindGameObjectWithTag("GhostController");
+        GhostController ghostsController = ghostsObj.GetComponent<GhostController>();
+        ghostsController.stopMoving();
+
+        //stop player
+        animatorController.enabled = false;
+        walkParticles.Stop();
+        currentInput = KeyCode.None;
+        lastInput = KeyCode.None;
+
+        GameObject countObject = GameObject.FindGameObjectWithTag("Countdown");
+        Text countText = countObject.GetComponent<Text>();
+        countText.text = "Game Over";
+        yield return new WaitForSeconds(3f);
+        countText.text = "";
+        SceneManager.LoadScene(0);
     }
 
     private bool isDying = false;
@@ -480,6 +463,11 @@ public class PacStudentController : MonoBehaviour
         GameTimerController gameTimerController = timerObject.GetComponent<GameTimerController>();
         GameObject audioController = GameObject.FindGameObjectWithTag("audioController");
         AudioController controller = audioController.GetComponent<AudioController>();
+        GameObject ghostsObj = GameObject.FindGameObjectWithTag("GhostController");
+        GhostController ghostsController = ghostsObj.GetComponent<GhostController>();
+        ghostsController.stopMoving();
+
+        animatorController.enabled = false;
         if (!firstRound)
         {
             controller.stopAudio();
@@ -498,5 +486,7 @@ public class PacStudentController : MonoBehaviour
         countText.text = "";
         controller.playNormal();
         gameTimerController.startTimer();
+        animatorController.enabled = true;
+        ghostsController.startMoving();
     }
 }

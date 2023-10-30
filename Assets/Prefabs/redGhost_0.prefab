@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 2045680717757049967}
   - component: {fileID: 481218153}
   - component: {fileID: 7921962319501824523}
+  - component: {fileID: 481218156}
   m_Layer: 0
   m_Name: redGhost_0
   m_TagString: Ghost
@@ -157,7 +158,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: 663323531, guid: 67cee9e05d116ac48bd29786c486dc70, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -218,7 +219,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -234,6 +235,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &481218156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2045680717757049953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2e3c0595cabc7d4fba274da30aa2620, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ghost: {fileID: 2045680717757049953}
 --- !u!1 &2045680717940222519
 GameObject:
   m_ObjectHideFlags: 0

@@ -21,6 +21,42 @@ public class GhostController : MonoBehaviour
 
     public bool isScared = false;
 
+    public void stopMoving()
+    {
+        isNormal = false;
+        foreach (var ghost in ghosts)
+        {
+            try
+            {
+                Animator animatorController = ghost.GetComponent<Animator>();
+                animatorController.enabled = false;
+            }
+            catch
+            {
+
+            }
+
+        }
+    }
+
+    public void startMoving()
+    {
+        isNormal = true;
+        foreach (var ghost in ghosts)
+        {
+            try
+            {
+                Animator animatorController = ghost.GetComponent<Animator>();
+                animatorController.enabled = true;
+            }
+            catch
+            {
+
+            }
+
+        }
+    }
+
     public void scaredState()
     {
         isNormal = false;

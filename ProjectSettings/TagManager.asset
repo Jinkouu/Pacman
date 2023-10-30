@@ -25,6 +25,8 @@ TagManager:
   - Ghost
   - livesController
   - Countdown
+  - LevelMap
+  - PelletController
   layers:
   - Default
   - TransparentFX

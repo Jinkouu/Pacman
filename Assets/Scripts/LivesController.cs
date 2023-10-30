@@ -28,4 +28,9 @@ public class LivesController : MonoBehaviour
         }
     }
 
+    public int getLives()
+    {
+        return livesCount;
+    }
+
 }
