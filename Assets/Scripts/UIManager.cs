@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    private int highscore = 0;
+    private float bestTime = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,12 +16,15 @@ public class UIManager : MonoBehaviour
             try
             {
                 GameObject timerObject = GameObject.FindGameObjectWithTag("Timer");
+                GameTimerController timerController = new GameTimerController();
                 Text timeText = timerObject.GetComponent<Text>();
-                timeText.text = PlayerPrefs.GetString("BestTime", "00:00:00");
+                bestTime = PlayerPrefs.GetFloat("BestTime", 0);
+                timeText.text = timerController.convertTime(bestTime);
 
                 GameObject scoreObject = GameObject.FindGameObjectWithTag("Score");
                 Text scoreText = scoreObject.GetComponent<Text>();
-                scoreText.text = PlayerPrefs.GetInt("HighScore", 0).ToString();
+                highscore = PlayerPrefs.GetInt("HighScore", 0);
+                scoreText.text = highscore.ToString();
             }
             catch
             {
@@ -48,4 +53,17 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
+    public void updatePrefs(int score, float time)
+    {
+        //PlayerPrefs.SetInt("HighScore", currentScore);
+        //PlayerPrefs.SetFloat("BestTime", currentTime);
+        if (score > highscore || (score == highscore && score < bestTime))
+        {
+            // Save the new high score and best time
+            PlayerPrefs.SetInt("HighScore", score);
+            GameTimerController timerController = new GameTimerController();
+            PlayerPrefs.SetFloat("BestTime", time);
+            PlayerPrefs.Save();
+        }
+    }
 }

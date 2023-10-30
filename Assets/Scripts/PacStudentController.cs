@@ -325,7 +325,7 @@ public class PacStudentController : MonoBehaviour
         }
     }
 
-    public float score = 0;
+    public int score = 0;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -382,6 +382,7 @@ public class PacStudentController : MonoBehaviour
                     if(controller.getLives() <= 0)
                     {
                         StartCoroutine(handleGameOver());
+                        return;
                     }
                     firstRound = false;
                     currentInput = KeyCode.None;
@@ -436,7 +437,14 @@ public class PacStudentController : MonoBehaviour
         countText.text = "Game Over";
         yield return new WaitForSeconds(3f);
         countText.text = "";
-        SceneManager.LoadScene(0);
+        //SceneManager.LoadScene(0);
+
+        //handle player prefs
+        GameObject managersObj = GameObject.FindGameObjectWithTag("Managers");
+        UIManager managerController = managersObj.GetComponent<UIManager>();
+        managerController.updatePrefs(score, gameTimerController.getTime());
+        managerController.LoadStartLevel();
+
     }
 
     private bool isDying = false;
@@ -482,10 +490,17 @@ public class PacStudentController : MonoBehaviour
         yield return new WaitForSeconds(1f);
         countText.text = "GO!";
         yield return new WaitForSeconds(1f);
+        if (firstRound)
+        {
+            gameTimerController.startTimer();
+        }
+        else
+        {
+            gameTimerController.startTimer();
+        }
         canMove = true;
         countText.text = "";
         controller.playNormal();
-        gameTimerController.startTimer();
         animatorController.enabled = true;
         ghostsController.startMoving();
     }
