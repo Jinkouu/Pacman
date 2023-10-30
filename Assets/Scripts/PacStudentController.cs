@@ -379,7 +379,7 @@ public class PacStudentController : MonoBehaviour
                 if (ghostController.isNormal){ //pacman dies
                     GameObject livesController = GameObject.FindGameObjectWithTag("livesController");
                     LivesController controller = livesController.GetComponent<LivesController>();
-                    if(controller.getLives() <= 0)
+                    if(controller.getLives() <= 1)
                     {
                         StartCoroutine(handleGameOver());
                         return;
@@ -450,7 +450,7 @@ public class PacStudentController : MonoBehaviour
     private bool isDying = false;
     IEnumerator handleDeath()
     {
-        startedMoving = false;
+        canMove = false;
         deathParticles.gameObject.transform.position = item.transform.position;
         deathParticles.Play();
         animatorController.enabled = true;
@@ -467,6 +467,7 @@ public class PacStudentController : MonoBehaviour
 
     IEnumerator roundStart()
     {
+        canMove = false;
         GameObject timerObject = GameObject.FindGameObjectWithTag("Timer");
         GameTimerController gameTimerController = timerObject.GetComponent<GameTimerController>();
         GameObject audioController = GameObject.FindGameObjectWithTag("audioController");
@@ -490,14 +491,7 @@ public class PacStudentController : MonoBehaviour
         yield return new WaitForSeconds(1f);
         countText.text = "GO!";
         yield return new WaitForSeconds(1f);
-        if (firstRound)
-        {
-            gameTimerController.startTimer();
-        }
-        else
-        {
-            gameTimerController.startTimer();
-        }
+        gameTimerController.startTimer();
         canMove = true;
         countText.text = "";
         controller.playNormal();

@@ -27,6 +27,7 @@ TagManager:
   - Countdown
   - LevelMap
   - PelletController
+  - Managers
   layers:
   - Default
   - TransparentFX

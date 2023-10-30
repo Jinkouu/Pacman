@@ -16,7 +16,7 @@ public class UIManager : MonoBehaviour
             try
             {
                 GameObject timerObject = GameObject.FindGameObjectWithTag("Timer");
-                GameTimerController timerController = new GameTimerController();
+                GameTimerController timerController = timerObject.GetComponent<GameTimerController>();
                 Text timeText = timerObject.GetComponent<Text>();
                 bestTime = PlayerPrefs.GetFloat("BestTime", 0);
                 timeText.text = timerController.convertTime(bestTime);
@@ -61,7 +61,8 @@ public class UIManager : MonoBehaviour
         {
             // Save the new high score and best time
             PlayerPrefs.SetInt("HighScore", score);
-            GameTimerController timerController = new GameTimerController();
+            GameObject timerObject = GameObject.FindGameObjectWithTag("Timer");
+            GameTimerController timerController = timerObject.GetComponent<GameTimerController>();
             PlayerPrefs.SetFloat("BestTime", time);
             PlayerPrefs.Save();
         }
