@@ -9,7 +9,7 @@ public class UIManager : MonoBehaviour
     private int highscore = 0;
     private float bestTime = 0;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         if(SceneManager.GetActiveScene().buildIndex == 0)
         {
@@ -42,14 +42,14 @@ public class UIManager : MonoBehaviour
     public void LoadFirstLevel()
     {
         //SceneManager.sceneLoaded += OnScreenLoad;
-        //DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);
         SceneManager.LoadScene(1);
     }
 
     public void LoadStartLevel()
     {
         //SceneManager.sceneLoaded += OnScreenLoad;
-        //DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);
         SceneManager.LoadScene(0);
     }
 

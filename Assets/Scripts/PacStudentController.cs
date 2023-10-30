@@ -331,23 +331,26 @@ public class PacStudentController : MonoBehaviour
     {
         if (other.CompareTag("gamePellet"))
         {
-            audioSource.clip = audioClips[1];
-            audioSource.Play();
-            score += 10;
-            GameObject scoreObject = GameObject.FindGameObjectWithTag("Score");
-            if (scoreObject != null)
+            if (canMove)
             {
-                Text scoreText = scoreObject.GetComponent<Text>();
-                scoreText.text = score.ToString();
-            }
-            GameObject pelletObj = GameObject.FindGameObjectWithTag("PelletController");
-            PelletController pelletController = pelletObj.GetComponent<PelletController>();
-            pelletController.reducePellet();
-            Destroy(other.gameObject);
+                audioSource.clip = audioClips[1];
+                audioSource.Play();
+                score += 10;
+                GameObject scoreObject = GameObject.FindGameObjectWithTag("Score");
+                if (scoreObject != null)
+                {
+                    Text scoreText = scoreObject.GetComponent<Text>();
+                    scoreText.text = score.ToString();
+                }
+                GameObject pelletObj = GameObject.FindGameObjectWithTag("PelletController");
+                PelletController pelletController = pelletObj.GetComponent<PelletController>();
+                pelletController.reducePellet();
+                Destroy(other.gameObject);
 
-            if(pelletController.getPelletCount() == 0)
-            {
-                StartCoroutine(handleGameOver());
+                if (pelletController.getPelletCount() == 0)
+                {
+                    StartCoroutine(handleGameOver());
+                }
             }
         }
         else if (other.CompareTag("Cherry"))
