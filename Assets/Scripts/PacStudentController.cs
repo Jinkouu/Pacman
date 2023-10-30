@@ -419,6 +419,7 @@ public class PacStudentController : MonoBehaviour
 
     IEnumerator handleGameOver()
     {
+        canMove = false;
         //end game when pellets is 0
         GameObject timerObject = GameObject.FindGameObjectWithTag("Timer");
         GameTimerController gameTimerController = timerObject.GetComponent<GameTimerController>();
