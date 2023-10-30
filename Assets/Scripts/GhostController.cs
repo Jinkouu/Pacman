@@ -2,15 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class GhostController : MonoBehaviour
 {
     public GameObject[] ghosts;
+    private int[,] newLevelMap;
 
     // Start is called before the first frame update
     void Start()
     {
         isNormal = true;
+        GameObject levelObj = GameObject.FindGameObjectWithTag("LevelMap");
+        LevelMap controller = levelObj.GetComponent<LevelMap>();
+        newLevelMap = controller.getLevel();
     }
 
     // Update is called once per frame
@@ -48,6 +53,9 @@ public class GhostController : MonoBehaviour
             {
                 Animator animatorController = ghost.GetComponent<Animator>();
                 animatorController.enabled = true;
+                Ghost ghostCon = ghost.GetComponent<Ghost>();
+                int currentX = ghostCon.currentX;
+                int currentY = ghostCon.currentY;
             }
             catch
             {
@@ -134,5 +142,26 @@ public class GhostController : MonoBehaviour
         yield return new WaitForSeconds(5f);
         animatorController.SetTrigger("Up");
         ghost.GetComponent<BoxCollider2D>().enabled = true;
+    }
+
+
+
+    private bool checkPosition(int checkX, int checkY)
+    {
+        try
+        {
+            if (newLevelMap[checkY, checkX] == 5 || newLevelMap[checkY, checkX] == 6 || newLevelMap[checkY, checkX] == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch
+        {
+            return false;
+        }
     }
 }
