@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
+//using static UnityEditor.Progress;
 using UnityEngine.SceneManagement;
-using UnityEditor.Animations;
+//using UnityEditor.Animations;
 
 public class PacStudentController : MonoBehaviour
 {

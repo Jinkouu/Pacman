@@ -31,6 +31,18 @@ public class UIManager : MonoBehaviour
 
             }
         }
+        else
+        {
+            try
+            {
+                bestTime = PlayerPrefs.GetFloat("BestTime", 0);
+                highscore = PlayerPrefs.GetInt("HighScore", 0);
+            }
+            catch
+            {
+
+            }
+        }
     }
 
     // Update is called once per frame
@@ -42,14 +54,14 @@ public class UIManager : MonoBehaviour
     public void LoadFirstLevel()
     {
         //SceneManager.sceneLoaded += OnScreenLoad;
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
         SceneManager.LoadScene(1);
     }
 
     public void LoadStartLevel()
     {
         //SceneManager.sceneLoaded += OnScreenLoad;
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
         SceneManager.LoadScene(0);
     }
 
