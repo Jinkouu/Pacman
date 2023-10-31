@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using static UnityEditor.Progress;
 
 public class GhostController : MonoBehaviour
 {
     public GameObject[] ghosts;
     private int[,] newLevelMap;
+    public Tweener tweener;
 
     // Start is called before the first frame update
     void Start()
     {
-        isNormal = true;
         GameObject levelObj = GameObject.FindGameObjectWithTag("LevelMap");
         LevelMap controller = levelObj.GetComponent<LevelMap>();
         newLevelMap = controller.getLevel();
@@ -21,7 +22,10 @@ public class GhostController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(isNormal)
+        {
+            moveGhostThree(ghosts[2]);
+        }
     }
 
     public bool isScared = false;
@@ -47,22 +51,148 @@ public class GhostController : MonoBehaviour
     public void startMoving()
     {
         isNormal = true;
-        foreach (var ghost in ghosts)
+        
+        //while (isNormal)
+        //{
+        //    moveGhostOne(ghosts[0]);
+        //}
+        
+
+    }
+
+    public void moveGhostThree(GameObject ghost)
+    {
+        Animator animatorController = ghost.GetComponent<Animator>();
+        animatorController.enabled = true;
+        Ghost ghostCon = ghost.GetComponent<Ghost>();
+        int currentX = ghostCon.currentX;
+        int currentY = ghostCon.currentY;
+        int newInput;
+
+        do
         {
-            try
-            {
-                Animator animatorController = ghost.GetComponent<Animator>();
-                animatorController.enabled = true;
-                Ghost ghostCon = ghost.GetComponent<Ghost>();
-                int currentX = ghostCon.currentX;
-                int currentY = ghostCon.currentY;
-            }
-            catch
-            {
-
-            }
-
+            newInput = Random.Range(0, 4);
         }
+        while (oppositeDirection(ghostCon.lastInput, newInput));
+        ghostCon.lastInput = newInput;
+
+        if (!tweener.TweenExists(ghost.transform))
+        {
+            if (checkPosition(ghostCon.lastInput, ghostCon))
+            {
+                switch (ghostCon.lastInput)
+                {
+                    case 0:
+                        moveLeft(ghostCon, animatorController);
+                        break;
+                    case 1:
+                        moveDown(ghostCon, animatorController);
+                        break;
+                    case 2:
+                        moveRight(ghostCon, animatorController);
+                        break;
+                    case 3:
+                        moveUp(ghostCon, animatorController);
+                        break;
+                }
+            }
+        }
+    }
+
+    private bool oppositeDirection(int lastInput, int newInput)
+    {
+        int[] oppositeDirection = {2, 3, 0, 1};
+        return newInput == oppositeDirection[lastInput];
+    }
+
+    private bool checkPosition(int key, Ghost ghostCon)
+    {
+        switch (key)
+        {
+            case 0:
+                return checkPosition(ghostCon.currentX - 1, ghostCon.currentY);
+            case 1:
+                return checkPosition(ghostCon.currentX, ghostCon.currentY + 1);
+            case 2:
+                return checkPosition(ghostCon.currentX + 1, ghostCon.currentY);
+            case 3:
+                return checkPosition(ghostCon.currentX, ghostCon.currentY - 1);
+            default:
+                return false;
+        }
+    }
+
+    private bool checkPosition(int checkX, int checkY)
+    {
+        try
+        {
+            if (newLevelMap[checkY, checkX] == 5 || newLevelMap[checkY, checkX] == 6 || newLevelMap[checkY, checkX] == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch
+        {
+            //need to change so that it walks backwards on teleporters
+            return false;
+        }
+    }
+
+    public void moveUp(Ghost ghost, Animator animatorController)
+    {
+        animatorController.SetTrigger("Up");
+        ghost.currentInput = ghost.lastInput;
+        tweener.AddTween(ghost.transform, ghost.transform.position, new Vector3(ghost.transform.position.x, ghost.transform.position.y + 1, 0f), 0.4f);
+        ghost.currentY -= 1;
+    }
+
+    public void moveLeft(Ghost ghost, Animator animatorController)
+    {
+        animatorController.SetTrigger("Left");
+        ghost.currentInput = ghost.lastInput;
+        tweener.AddTween(ghost.transform, ghost.transform.position, new Vector3(ghost.transform.position.x - 1, ghost.transform.position.y, 0f), 0.4f);
+        ghost.currentX -= 1;
+    }
+
+    public void moveDown(Ghost ghost, Animator animatorController)
+    {
+        animatorController.SetTrigger("Down");
+        ghost.currentInput = ghost.lastInput;
+        tweener.AddTween(ghost.transform, ghost.transform.position, new Vector3(ghost.transform.position.x, ghost.transform.position.y - 1, 0f), 0.4f);
+        ghost.currentY += 1;
+    }
+
+    public void moveRight(Ghost ghost, Animator animatorController)
+    {
+        animatorController.SetTrigger("Right");
+        ghost.currentInput = ghost.lastInput;
+        tweener.AddTween(ghost.transform, ghost.transform.position, new Vector3(ghost.transform.position.x + 1, ghost.transform.position.y, 0f), 0.4f);
+        ghost.currentX += 1;
+    }
+
+    public void moveUpCurrent(Ghost ghost, Animator animatorController)
+    {
+        animatorController.SetTrigger("Up");
+        tweener.AddTween(ghost.transform, ghost.transform.position, new Vector3(ghost.transform.position.x, ghost.transform.position.y + 1, 0f), 0.4f);
+        ghost.currentY -= 1;
+    }
+
+    public void moveLeftCurrent(Ghost ghost, Animator animatorController)
+    {
+        animatorController.SetTrigger("Left");
+        tweener.AddTween(ghost.transform, ghost.transform.position, new Vector3(ghost.transform.position.x - 1, ghost.transform.position.y, 0f), 0.4f);
+        ghost.currentX -= 1;
+    }
+
+    public void moveDownCurrent(Ghost ghost, Animator animatorController)
+    {
+        animatorController.SetTrigger("Down");
+        tweener.AddTween(ghost.transform, ghost.transform.position, new Vector3(ghost.transform.position.x, ghost.transform.position.y - 1, 0f), 0.4f);
+        ghost.currentY += 1;
     }
 
     public void scaredState()
@@ -128,7 +258,9 @@ public class GhostController : MonoBehaviour
     {
         ghost.GetComponent<BoxCollider2D>().enabled = false;
         Animator animatorController = ghost.GetComponent<Animator>();
+        Ghost ghostCon = ghost.GetComponent<Ghost>();
         animatorController.SetTrigger("DeadUp");
+        tweener.AddTween(ghost.transform, ghost.transform.position, new Vector3(ghostCon.getStartX(), ghostCon.getStartY(), 0f), 5f);
     }
 
     public void ghostTimer(GameObject ghost)
@@ -142,26 +274,5 @@ public class GhostController : MonoBehaviour
         yield return new WaitForSeconds(5f);
         animatorController.SetTrigger("Up");
         ghost.GetComponent<BoxCollider2D>().enabled = true;
-    }
-
-
-
-    private bool checkPosition(int checkX, int checkY)
-    {
-        try
-        {
-            if (newLevelMap[checkY, checkX] == 5 || newLevelMap[checkY, checkX] == 6 || newLevelMap[checkY, checkX] == 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        catch
-        {
-            return false;
-        }
     }
 }

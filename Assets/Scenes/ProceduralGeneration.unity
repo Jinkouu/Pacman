@@ -55844,6 +55844,7 @@ MonoBehaviour:
   - {fileID: 594706237}
   - {fileID: 1936962440}
   - {fileID: 481218150}
+  tweener: {fileID: 1990255747}
   isScared: 0
   isRecovery: 0
   isNormal: 0
