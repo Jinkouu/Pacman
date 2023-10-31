@@ -29,6 +29,24 @@ public class GhostController : MonoBehaviour
             moveGhostTwo(ghosts[1]);
             moveGhostThree(ghosts[2]);
         }
+        else if(isScared)
+        {
+            foreach (var ghost in ghosts)
+            {
+                Animator animatorController = ghost.GetComponent<Animator>();
+                animatorController.SetTrigger("Scared");
+                moveScaredAndRecovery(ghost);
+            }
+        }
+        else if (isRecovery)
+        {
+            foreach (var ghost in ghosts)
+            {
+                Animator animatorController = ghost.GetComponent<Animator>();
+                animatorController.SetTrigger("Recovery");
+                moveScaredAndRecovery(ghost);
+            }
+        }
     }
 
     public bool isScared = false;
@@ -53,6 +71,7 @@ public class GhostController : MonoBehaviour
 
     public void startMoving()
     {
+        isRecovery = false;
         isNormal = true;
     }
     public void moveGhostOne(GameObject ghost)
@@ -105,16 +124,20 @@ public class GhostController : MonoBehaviour
                 switch (newInput)
                  {
                      case 0:
-                         moveLeft(ghostCon, animatorController);
+                        animatorController.SetTrigger("Left");
+                        moveLeft(ghostCon, animatorController);
                          break;
                      case 1:
-                         moveDown(ghostCon, animatorController);
+                        animatorController.SetTrigger("Down");
+                        moveDown(ghostCon, animatorController);
                          break;
                      case 2:
-                         moveRight(ghostCon, animatorController);
+                        animatorController.SetTrigger("Right");
+                        moveRight(ghostCon, animatorController);
                          break;
                      case 3:
-                         moveUp(ghostCon, animatorController);
+                        animatorController.SetTrigger("Up");
+                        moveUp(ghostCon, animatorController);
                          break;
                  }
                 ghostCon.lastInput = newInput;
@@ -177,15 +200,19 @@ public class GhostController : MonoBehaviour
                 switch (newInput)
                 {
                     case 0:
+                        animatorController.SetTrigger("Left");
                         moveLeft(ghostCon, animatorController);
                         break;
                     case 1:
+                        animatorController.SetTrigger("Down");
                         moveDown(ghostCon, animatorController);
                         break;
                     case 2:
+                        animatorController.SetTrigger("Right");
                         moveRight(ghostCon, animatorController);
                         break;
                     case 3:
+                        animatorController.SetTrigger("Up");
                         moveUp(ghostCon, animatorController);
                         break;
                 }
@@ -230,15 +257,19 @@ public class GhostController : MonoBehaviour
                 switch (last)
                 {
                     case 0:
+                        animatorController.SetTrigger("Left");
                         moveLeft(ghostCon, animatorController);
                         break;
                     case 1:
+                        animatorController.SetTrigger("Down");
                         moveDown(ghostCon, animatorController);
                         break;
                     case 2:
+                        animatorController.SetTrigger("Right");
                         moveRight(ghostCon, animatorController);
                         break;
                     case 3:
+                        animatorController.SetTrigger("Up");
                         moveUp(ghostCon, animatorController);
                         break;
                 }
@@ -308,48 +339,107 @@ public class GhostController : MonoBehaviour
 
     public void moveUp(Ghost ghost, Animator animatorController)
     {
-        animatorController.SetTrigger("Up");
         tweener.AddTween(ghost.transform, ghost.transform.position, new Vector3(ghost.transform.position.x, ghost.transform.position.y + 1, 0f), 0.4f);
         ghost.currentY -= 1;
     }
 
     public void moveLeft(Ghost ghost, Animator animatorController)
     {
-        animatorController.SetTrigger("Left");
         tweener.AddTween(ghost.transform, ghost.transform.position, new Vector3(ghost.transform.position.x - 1, ghost.transform.position.y, 0f), 0.4f);
         ghost.currentX -= 1;
     }
 
     public void moveDown(Ghost ghost, Animator animatorController)
     {
-        animatorController.SetTrigger("Down");
         tweener.AddTween(ghost.transform, ghost.transform.position, new Vector3(ghost.transform.position.x, ghost.transform.position.y - 1, 0f), 0.4f);
         ghost.currentY += 1;
     }
 
     public void moveRight(Ghost ghost, Animator animatorController)
     {
-        animatorController.SetTrigger("Right");
         tweener.AddTween(ghost.transform, ghost.transform.position, new Vector3(ghost.transform.position.x + 1, ghost.transform.position.y, 0f), 0.4f);
         ghost.currentX += 1;
+    }
+
+    //-------------------------------- movement scared
+
+
+    public void moveScaredAndRecovery(GameObject ghost)
+    {
+        Animator animatorController = ghost.GetComponent<Animator>();
+        animatorController.enabled = true;
+        Ghost ghostCon = ghost.GetComponent<Ghost>();
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (!tweener.TweenExists(ghost.transform))
+        {
+            float currentDist = Vector2.Distance(player.transform.position, new Vector3(ghostCon.currentX, ghostCon.currentY, 0f));
+            List<int> valid = new List<int>();
+            for (int i = 0; i <= 3; i++)
+            {
+                if (checkPosition(i, ghostCon))
+                {
+                    if (!oppositeDirection(ghostCon.lastInput, i))
+                    {
+                        //int newX = ghostCon.currentX;
+                        //int newY = ghostCon.currentY;
+                        float newDist = 0;
+                        switch (i)
+                        {
+                            case 0: //left
+                                newDist = Vector2.Distance(player.transform.position, new Vector3(ghostCon.currentX - 1, ghostCon.currentY, 0f));
+                                break;
+                            case 1: //down
+                                newDist = Vector2.Distance(player.transform.position, new Vector3(ghostCon.currentX, ghostCon.currentY + 1, 0f));
+                                break;
+                            case 2: //right
+                                newDist = Vector2.Distance(player.transform.position, new Vector3(ghostCon.currentX + 1, ghostCon.currentY, 0f));
+                                break;
+                            case 3: //up
+                                newDist = Vector2.Distance(player.transform.position, new Vector3(ghostCon.currentX, ghostCon.currentY - 1, 0f));
+                                break;
+                        }
+
+                        if (newDist >= currentDist)
+                        {
+                            valid.Add(i);
+                        }
+                    }
+                }
+            }
+            if (valid.Count > 0)
+            {
+                int newInput = valid[Random.Range(0, valid.Count)];
+                //Debug.Log("new: " + newDist + " old: " + currentDist);
+                switch (newInput)
+                {
+                    case 0:
+                        moveLeft(ghostCon, animatorController);
+                        break;
+                    case 1:
+                        moveDown(ghostCon, animatorController);
+                        break;
+                    case 2:
+                        moveRight(ghostCon, animatorController);
+                        break;
+                    case 3:
+                        moveUp(ghostCon, animatorController);
+                        break;
+                }
+                ghostCon.lastInput = newInput;
+            }
+            else
+            {
+                //will get stuck otherwise
+                moveGhostThree(ghost);
+            }
+        }
     }
 
     public void scaredState()
     {
         isNormal = false;
         isScared = true;
-        foreach(var ghost in ghosts)
-        {
-            try
-            {
-                Animator animatorController = ghost.GetComponent<Animator>();
-                animatorController.SetTrigger("Scared");
-            }
-            catch{
-
-            }
-
-        }
     }
 
     public bool isRecovery = false;
@@ -357,11 +447,6 @@ public class GhostController : MonoBehaviour
     {
         isScared = false;
         isRecovery = true;
-        foreach (var ghost in ghosts)
-        {
-            Animator animatorController = ghost.GetComponent<Animator>();
-            animatorController.SetTrigger("Recovery");
-        }
     }
 
     public bool isNormal = false;
