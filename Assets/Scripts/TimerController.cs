@@ -7,18 +7,12 @@ public class TimerController : MonoBehaviour
 {
     public float timer = 10f;
     private Text timerText;
-    private GhostController animator;
+    private GhostController ghost;
 
     // Start is called before the first frame update
     void Start()
     {
-        try
-        {
-            timerText = GetComponent<Text>();
-            GameObject animatorObj = GameObject.FindGameObjectWithTag("GhostController"); 
-            animator = animatorObj.GetComponent<GhostController>();
-        }
-        catch { }
+
     }
 
     // Update is called once per frame
@@ -29,23 +23,22 @@ public class TimerController : MonoBehaviour
 
     public void countdown()
     {
-        if (!animator.isScared)
-        {
-            animator.scaredState();
-        }
+        timer = 10f;
         StartCoroutine(actualTimer());
     }
 
     IEnumerator actualTimer()
     {
+        timerText = GetComponent<Text>();
+        GameObject ghostObj = GameObject.FindGameObjectWithTag("GhostController");
+        ghost = ghostObj.GetComponent<GhostController>();
+        ghost.scaredState();
+
         while (timer > 0)
         {
             if(timer <= 3)
             {
-                if (!animator.isRecovery)
-                {
-                    animator.recoveryState();
-                }
+                ghost.recoveryState();
             }
 
             timerText.text = timer.ToString();
@@ -54,9 +47,6 @@ public class TimerController : MonoBehaviour
         }
         //timer is at 0
         timerText.text = "";
-        if (!animator.isNormal)
-        {
-            animator.normalState();
-        }
+        ghost.startMoving();
     }
 }

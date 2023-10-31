@@ -29,7 +29,7 @@ public class GhostController : MonoBehaviour
             moveGhostTwo(ghosts[1]);
             moveGhostThree(ghosts[2]);
         }
-        else if(isScared)
+        if(isScared)
         {
             foreach (var ghost in ghosts)
             {
@@ -38,7 +38,7 @@ public class GhostController : MonoBehaviour
                 moveScaredAndRecovery(ghost);
             }
         }
-        else if (isRecovery)
+        if (isRecovery)
         {
             foreach (var ghost in ghosts)
             {
@@ -71,6 +71,7 @@ public class GhostController : MonoBehaviour
 
     public void startMoving()
     {
+        isScared = false;
         isRecovery = false;
         isNormal = true;
     }
@@ -440,6 +441,7 @@ public class GhostController : MonoBehaviour
     {
         isNormal = false;
         isScared = true;
+        isRecovery = false;
     }
 
     public bool isRecovery = false;
@@ -447,36 +449,10 @@ public class GhostController : MonoBehaviour
     {
         isScared = false;
         isRecovery = true;
+        isNormal = false;
     }
 
     public bool isNormal = false;
-
-    public void normalState()
-    {
-        isRecovery = false;
-        isNormal = true;
-        foreach (var ghost in ghosts)
-        {
-            Animator animatorController = ghost.GetComponent<Animator>();
-            animatorController.SetTrigger("Up");
-            //StartCoroutine(normalDisplayAnimation(animatorController));
-        }
-    }
-
-    IEnumerator normalDisplayAnimation(Animator animatorController)
-    {
-        while (isNormal)
-        {
-            animatorController.SetTrigger("Up");
-            yield return new WaitForSeconds(2f);
-            animatorController.SetTrigger("Right");
-            yield return new WaitForSeconds(2f);
-            animatorController.SetTrigger("Down");
-            yield return new WaitForSeconds(2f);
-            animatorController.SetTrigger("Left");
-            yield return new WaitForSeconds(2f);
-        }
-    }
 
     public void deadState(GameObject ghost)
     {
@@ -487,6 +463,7 @@ public class GhostController : MonoBehaviour
         tweener.AddTween(ghost.transform, ghost.transform.position, new Vector3(ghostCon.getStartX(), ghostCon.getStartY(), 0f), 5f);
     }
 
+    //when the ghost gets eaten, called by pacstudent
     public void ghostTimer(GameObject ghost)
     {
         StartCoroutine(ghostTimers(ghost));
