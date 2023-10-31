@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using static UnityEditor.Progress;
@@ -25,7 +26,7 @@ public class GhostController : MonoBehaviour
         if(isNormal)
         {
             moveGhostOne(ghosts[0]);
-            moveGhostOne(ghosts[1]);
+            moveGhostTwo(ghosts[1]);
             moveGhostThree(ghosts[2]);
         }
     }
@@ -90,13 +91,13 @@ public class GhostController : MonoBehaviour
                                 newX--;
                                 break;
                             case 1: //down
-                                newY++;
+                                newY--;
                                 break;
                             case 2: //right
                                 newX++;
                                 break;
                             case 3: //up
-                                newY--;
+                                newY++;
                                 break;
                         }
 
@@ -162,13 +163,13 @@ public class GhostController : MonoBehaviour
                                 newX--;
                                 break;
                             case 1: //down
-                                newY++;
+                                newY--;
                                 break;
                             case 2: //right
                                 newX++;
                                 break;
                             case 3: //up
-                                newY--;
+                                newY++;
                                 break;
                         }
 
@@ -213,19 +214,18 @@ public class GhostController : MonoBehaviour
         //int currentX = ghostCon.currentX;
         //int currentY = ghostCon.currentY;
         int newInput;
-
-        do
-        {
-            newInput = Random.Range(0, 4);
-        }
-        while (oppositeDirection(ghostCon.lastInput, newInput));
-        ghostCon.lastInput = newInput;
-
         if (!tweener.TweenExists(ghost.transform))
         {
-            if (checkPosition(ghostCon.lastInput, ghostCon))
+            do
             {
-                switch (ghostCon.lastInput)
+                newInput = Random.Range(0, 4);
+            }
+            while (oppositeDirection(ghostCon.lastInput, newInput));
+            int last = newInput;
+
+            if (checkPosition(last, ghostCon))
+            {
+                switch (last)
                 {
                     case 0:
                         moveLeft(ghostCon, animatorController);
@@ -240,6 +240,7 @@ public class GhostController : MonoBehaviour
                         moveUp(ghostCon, animatorController);
                         break;
                 }
+                ghostCon.lastInput = last;
             }
         }
     }
@@ -306,7 +307,6 @@ public class GhostController : MonoBehaviour
     public void moveUp(Ghost ghost, Animator animatorController)
     {
         animatorController.SetTrigger("Up");
-        ghost.currentInput = ghost.lastInput;
         tweener.AddTween(ghost.transform, ghost.transform.position, new Vector3(ghost.transform.position.x, ghost.transform.position.y + 1, 0f), 0.4f);
         ghost.currentY -= 1;
     }
@@ -314,7 +314,6 @@ public class GhostController : MonoBehaviour
     public void moveLeft(Ghost ghost, Animator animatorController)
     {
         animatorController.SetTrigger("Left");
-        ghost.currentInput = ghost.lastInput;
         tweener.AddTween(ghost.transform, ghost.transform.position, new Vector3(ghost.transform.position.x - 1, ghost.transform.position.y, 0f), 0.4f);
         ghost.currentX -= 1;
     }
@@ -322,7 +321,6 @@ public class GhostController : MonoBehaviour
     public void moveDown(Ghost ghost, Animator animatorController)
     {
         animatorController.SetTrigger("Down");
-        ghost.currentInput = ghost.lastInput;
         tweener.AddTween(ghost.transform, ghost.transform.position, new Vector3(ghost.transform.position.x, ghost.transform.position.y - 1, 0f), 0.4f);
         ghost.currentY += 1;
     }
@@ -330,7 +328,6 @@ public class GhostController : MonoBehaviour
     public void moveRight(Ghost ghost, Animator animatorController)
     {
         animatorController.SetTrigger("Right");
-        ghost.currentInput = ghost.lastInput;
         tweener.AddTween(ghost.transform, ghost.transform.position, new Vector3(ghost.transform.position.x + 1, ghost.transform.position.y, 0f), 0.4f);
         ghost.currentX += 1;
     }
