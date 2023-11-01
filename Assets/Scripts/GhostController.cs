@@ -34,6 +34,7 @@ public class GhostController : MonoBehaviour
             moveGhostOne(ghosts[0]);
             moveGhostTwo(ghosts[1]);
             moveGhostThree(ghosts[2]);
+            moveGhostFour(ghosts[3]);
         }
         else if(isScared)
         {
@@ -100,7 +101,7 @@ public class GhostController : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (!tweener.TweenExists(ghost.transform))
         {
-            float currentDist = Vector2.Distance(player.transform.position, new Vector3(ghostCon.currentX, ghostCon.currentY, 0f));
+            float currentDist = Vector2.Distance(player.transform.position, new Vector3(ghost.transform.position.x, ghost.transform.position.y, 0f));
             List<int> valid = new List<int>();
             for (int i = 0; i <= 3; i++)
             {
@@ -112,16 +113,16 @@ public class GhostController : MonoBehaviour
                         switch (i)
                         {
                             case 0: //left
-                                newDist = Vector2.Distance(player.transform.position, new Vector3(ghostCon.currentX - 1, ghostCon.currentY, 0f));
+                                newDist = Vector2.Distance(player.transform.position, new Vector3(ghost.transform.position.x - 1, ghost.transform.position.y, 0f));
                                 break;
                             case 1: //down
-                                newDist = Vector2.Distance(player.transform.position, new Vector3(ghostCon.currentX, ghostCon.currentY + 1, 0f));
+                                newDist = Vector2.Distance(player.transform.position, new Vector3(ghost.transform.position.x, ghost.transform.position.y - 1, 0f));
                                 break;
                             case 2: //right
-                                newDist = Vector2.Distance(player.transform.position, new Vector3(ghostCon.currentX + 1, ghostCon.currentY, 0f));
+                                newDist = Vector2.Distance(player.transform.position, new Vector3(ghost.transform.position.x + 1, ghost.transform.position.y, 0f));
                                 break;
                             case 3: //up
-                                newDist = Vector2.Distance(player.transform.position, new Vector3(ghostCon.currentX, ghostCon.currentY - 1, 0f));
+                                newDist = Vector2.Distance(player.transform.position, new Vector3(ghost.transform.position.x, ghost.transform.position.y + 1, 0f));
                                 break;
                         }
                         
@@ -174,7 +175,7 @@ public class GhostController : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (!tweener.TweenExists(ghost.transform))
         {
-            float currentDist = Vector2.Distance(player.transform.position, new Vector3(ghostCon.currentX, ghostCon.currentY, 0f));
+            float currentDist = Vector2.Distance(player.transform.position, new Vector3(ghost.transform.position.x, ghost.transform.position.y, 0f));
             List<int> valid = new List<int>();
             for (int i = 0; i <= 3; i++)
             {
@@ -186,16 +187,16 @@ public class GhostController : MonoBehaviour
                         switch (i)
                         {
                             case 0: //left
-                                newDist = Vector2.Distance(player.transform.position, new Vector3(ghostCon.currentX - 1, ghostCon.currentY, 0f));
+                                newDist = Vector2.Distance(player.transform.position, new Vector3(ghost.transform.position.x - 1, ghost.transform.position.y, 0f));
                                 break;
                             case 1: //down
-                                newDist = Vector2.Distance(player.transform.position, new Vector3(ghostCon.currentX, ghostCon.currentY + 1, 0f));
+                                newDist = Vector2.Distance(player.transform.position, new Vector3(ghost.transform.position.x, ghost.transform.position.y - 1, 0f));
                                 break;
                             case 2: //right
-                                newDist = Vector2.Distance(player.transform.position, new Vector3(ghostCon.currentX + 1, ghostCon.currentY, 0f));
+                                newDist = Vector2.Distance(player.transform.position, new Vector3(ghost.transform.position.x + 1, ghost.transform.position.y, 0f));
                                 break;
                             case 3: //up
-                                newDist = Vector2.Distance(player.transform.position, new Vector3(ghostCon.currentX, ghostCon.currentY - 1, 0f));
+                                newDist = Vector2.Distance(player.transform.position, new Vector3(ghost.transform.position.x, ghost.transform.position.y + 1, 0f));
                                 break;
                         }
 
@@ -285,6 +286,113 @@ public class GhostController : MonoBehaviour
                         break;
                 }
                 ghostCon.lastInput = last;
+            }
+        }
+    }
+    public int quadrant = 0;
+    //0 is top right
+    //1 is bottom right
+    //2 is bottom left
+    //3 is top Left
+
+    private Vector3 getEdge(int quadrant)
+    {
+        switch (quadrant)
+        {
+            case 0:
+                return new Vector3(26f, -1f, 0f);
+            case 1:
+                return new Vector3(26f, -27f, 0f);
+            case 2:
+                return new Vector3(1f, -27f, 0f);
+            case 3:
+                return new Vector3(1f, -1f, 0f);
+            default:
+                return Vector3.zero;
+        }
+    }
+
+    public void moveGhostFour(GameObject ghost)
+    {
+        Animator animatorController = ghost.GetComponent<Animator>();
+        animatorController.enabled = true;
+        Ghost ghostCon = ghost.GetComponent<Ghost>();
+
+
+        if (!tweener.TweenExists(ghost.transform))
+        {
+            //basically make it go top quandrants of the map in order
+            float currentDist = Vector2.Distance(getEdge(quadrant), new Vector3(ghost.transform.position.x, ghost.transform.position.y, 0f));
+            Debug.Log(quadrant + currentDist);
+            if (currentDist <= 1f)
+            {
+                quadrant++;
+                if(quadrant > 3)
+                {
+                    quadrant = 0;
+                }
+                currentDist = Vector2.Distance(getEdge(quadrant), new Vector3(ghostCon.currentX, ghostCon.currentY, 0f));
+            }
+
+            List<int> valid = new List<int>();
+            for (int i = 0; i <= 3; i++)
+            {
+                if (checkPosition(i, ghostCon))
+                {
+                    if (!oppositeDirection(ghostCon.lastInput, i))
+                    {
+                        float newDist = 0;
+                        switch (i)
+                        {
+                            case 0: //left
+                                newDist = Vector2.Distance(getEdge(quadrant), new Vector3(ghost.transform.position.x - 1, ghost.transform.position.y, 0f));
+                                break;
+                            case 1: //down
+                                newDist = Vector2.Distance(getEdge(quadrant), new Vector3(ghost.transform.position.x, ghost.transform.position.y + 1, 0f));
+                                break;
+                            case 2: //right
+                                newDist = Vector2.Distance(getEdge(quadrant), new Vector3(ghost.transform.position.x + 1, ghost.transform.position.y, 0f));
+                                break;
+                            case 3: //up
+                                newDist = Vector2.Distance(getEdge(quadrant), new Vector3(ghost.transform.position.x, ghost.transform.position.y - 1, 0f));
+                                break;
+                        }
+
+                        if (newDist <= currentDist)
+                        {
+                            valid.Add(i);
+                        }
+                    }
+                }
+            }
+            if (valid.Count > 0)
+            {
+                int newInput = valid[Random.Range(0, valid.Count)];
+                //Debug.Log("new: " + newDist + " old: " + currentDist);
+                switch (newInput)
+                {
+                    case 0:
+                        animatorController.SetTrigger("Left");
+                        moveLeft(ghostCon, animatorController);
+                        break;
+                    case 1:
+                        animatorController.SetTrigger("Down");
+                        moveDown(ghostCon, animatorController);
+                        break;
+                    case 2:
+                        animatorController.SetTrigger("Right");
+                        moveRight(ghostCon, animatorController);
+                        break;
+                    case 3:
+                        animatorController.SetTrigger("Up");
+                        moveUp(ghostCon, animatorController);
+                        break;
+                }
+                ghostCon.lastInput = newInput;
+            }
+            else
+            {
+                moveGhostThree(ghost);
             }
         }
     }
