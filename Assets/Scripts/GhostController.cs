@@ -381,7 +381,7 @@ public class GhostController : MonoBehaviour
                 {
                     quadrant = 0;
                 }
-                currentDist = Vector2.Distance(getEdge(quadrant), new Vector3(ghostCon.currentX, ghostCon.currentY, 0f));
+                currentDist = Vector2.Distance(getEdge(quadrant), new Vector3(ghost.transform.position.x, ghost.transform.position.y, 0f));
             }
 
             List<int> valid = new List<int>();
