@@ -401,7 +401,7 @@ public class PacStudentController : MonoBehaviour
                 }
                 else
                 {
-                    ghostController.deadState(other.gameObject);
+                    ///ghostController.deadState(other.gameObject);
                     score += 300;
                     GameObject scoreObject = GameObject.FindGameObjectWithTag("Score");
                     if (scoreObject != null)

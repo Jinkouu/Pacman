@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class Tweener : MonoBehaviour
 {
@@ -47,6 +48,21 @@ public class Tweener : MonoBehaviour
         return false;
     }
 
+    public void removeTween(Transform target)
+    {
+        foreach (Tween activeTween in activeTweens)
+        {
+            try
+            {
+                if (activeTween.Target.transform == target)
+                    activeTweens.Remove(activeTween);
+            }
+            catch
+            {
+                
+            }
+        }
+    }
 
     public bool TweenExists(Transform target)
     {

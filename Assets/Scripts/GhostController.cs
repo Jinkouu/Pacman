@@ -108,8 +108,6 @@ public class GhostController : MonoBehaviour
                 {
                     if (!oppositeDirection(ghostCon.lastInput, i))
                     {
-                        //int newX = ghostCon.currentX;
-                        //int newY = ghostCon.currentY;
                         float newDist = 0;
                         switch (i)
                         {
@@ -184,8 +182,6 @@ public class GhostController : MonoBehaviour
                 {
                     if (!oppositeDirection(ghostCon.lastInput, i))
                     {
-                        //int newX = ghostCon.currentX;
-                        //int newY = ghostCon.currentY;
                         float newDist = 0;
                         switch (i)
                         {
@@ -247,8 +243,6 @@ public class GhostController : MonoBehaviour
         Animator animatorController = ghost.GetComponent<Animator>();
         animatorController.enabled = true;
         Ghost ghostCon = ghost.GetComponent<Ghost>();
-        //int currentX = ghostCon.currentX;
-        //int currentY = ghostCon.currentY;
         int newInput;
         if (!tweener.TweenExists(ghost.transform))
         {
@@ -356,25 +350,25 @@ public class GhostController : MonoBehaviour
 
     public void moveUp(Ghost ghost, Animator animatorController)
     {
-        tweener.AddTween(ghost.transform, ghost.transform.position, new Vector3(ghost.transform.position.x, ghost.transform.position.y + 1, 0f), 0.4f);
+        tweener.AddTween(ghost.transform, ghost.transform.position, new Vector3(ghost.transform.position.x, ghost.transform.position.y + 1, 0f), 0.5f);
         ghost.currentY -= 1;
     }
 
     public void moveLeft(Ghost ghost, Animator animatorController)
     {
-        tweener.AddTween(ghost.transform, ghost.transform.position, new Vector3(ghost.transform.position.x - 1, ghost.transform.position.y, 0f), 0.4f);
+        tweener.AddTween(ghost.transform, ghost.transform.position, new Vector3(ghost.transform.position.x - 1, ghost.transform.position.y, 0f), 0.5f);
         ghost.currentX -= 1;
     }
 
     public void moveDown(Ghost ghost, Animator animatorController)
     {
-        tweener.AddTween(ghost.transform, ghost.transform.position, new Vector3(ghost.transform.position.x, ghost.transform.position.y - 1, 0f), 0.4f);
+        tweener.AddTween(ghost.transform, ghost.transform.position, new Vector3(ghost.transform.position.x, ghost.transform.position.y - 1, 0f), 0.5f);
         ghost.currentY += 1;
     }
 
     public void moveRight(Ghost ghost, Animator animatorController)
     {
-        tweener.AddTween(ghost.transform, ghost.transform.position, new Vector3(ghost.transform.position.x + 1, ghost.transform.position.y, 0f), 0.4f);
+        tweener.AddTween(ghost.transform, ghost.transform.position, new Vector3(ghost.transform.position.x + 1, ghost.transform.position.y, 0f), 0.5f);
         ghost.currentX += 1;
     }
 
@@ -509,14 +503,20 @@ public class GhostController : MonoBehaviour
 
     public bool isNormal = false;
 
-    public void deadState(GameObject ghost)
-    {
-        ghost.GetComponent<BoxCollider2D>().enabled = false;
-        Animator animatorController = ghost.GetComponent<Animator>();
-        Ghost ghostCon = ghost.GetComponent<Ghost>();
-        animatorController.SetTrigger("DeadUp");
-        tweener.AddTween(ghost.transform, ghost.transform.position, new Vector3(ghostCon.getStartX(), ghostCon.getStartY(), 0f), 5f);
-    }
+    //public void deadState(GameObject ghost)
+    //{
+    //    ghost.GetComponent<BoxCollider2D>().enabled = false;
+    //    StartCoroutine(movingDead(ghost));
+    //}
+    //
+    //IEnumerator movingDead(GameObject ghost)
+    //{
+    //    Animator animatorController = ghost.GetComponent<Animator>();
+    //    Ghost ghostCon = ghost.GetComponent<Ghost>();
+    //    animatorController.SetTrigger("DeadUp");
+    //    tweener.AddTween(ghost.transform, ghost.transform.position, new Vector3(ghostCon.getStartX(), ghostCon.getStartY(), 0f), 5f);
+    //    yield return new WaitForSeconds(5f);
+    //}
 
     //when the ghost gets eaten, called by pacstudent
     public void ghostTimer(GameObject ghost)
@@ -526,9 +526,24 @@ public class GhostController : MonoBehaviour
 
     IEnumerator ghostTimers(GameObject ghost)
     {
+        isRecovery = false;
+        isNormal = false;
+        isScared = false;
+        ghost.GetComponent<BoxCollider2D>().enabled = false;
         Animator animatorController = ghost.GetComponent<Animator>();
+        Ghost ghostCon = ghost.GetComponent<Ghost>();
+        animatorController.SetTrigger("DeadUp");
+        while (tweener.TweenExists(ghost.transform))
+        {
+            yield return new WaitForEndOfFrame();
+        }
+        tweener.AddTween(ghost.transform, ghost.transform.position, ghostCon.start, 5f);
         yield return new WaitForSeconds(5f);
+        ghostCon.currentX = (int)ghostCon.getStartX();
+        ghostCon.currentY = (int)ghostCon.getStartY();
         animatorController.SetTrigger("Up");
         ghost.GetComponent<BoxCollider2D>().enabled = true;
+        //isNormal = true;
+        startMoving();
     }
 }
