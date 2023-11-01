@@ -25,11 +25,17 @@ public class GhostController : MonoBehaviour
     {
         if(isNormal)
         {
+            if(isScared || isRecovery)
+            {
+                isScared = false;
+                isRecovery = false;
+                resetAnimation();
+            }
             moveGhostOne(ghosts[0]);
             moveGhostTwo(ghosts[1]);
             moveGhostThree(ghosts[2]);
         }
-        if(isScared)
+        else if(isScared)
         {
             foreach (var ghost in ghosts)
             {
@@ -38,7 +44,7 @@ public class GhostController : MonoBehaviour
                 moveScaredAndRecovery(ghost);
             }
         }
-        if (isRecovery)
+        else if (isRecovery)
         {
             foreach (var ghost in ghosts)
             {
@@ -71,10 +77,20 @@ public class GhostController : MonoBehaviour
 
     public void startMoving()
     {
-        isScared = false;
-        isRecovery = false;
+        //isScared = false;
+        //isRecovery = false;
         isNormal = true;
     }
+
+    public void resetAnimation()
+    {
+        foreach (var ghost in ghosts) //fixes animation
+        {
+            Animator animatorController = ghost.GetComponent<Animator>();
+            animatorController.SetTrigger("Reset");
+        }
+    }
+
     public void moveGhostOne(GameObject ghost)
     {
         Animator animatorController = ghost.GetComponent<Animator>();
@@ -432,7 +448,46 @@ public class GhostController : MonoBehaviour
             else
             {
                 //will get stuck otherwise
-                moveGhostThree(ghost);
+                int newInput;
+                if (!tweener.TweenExists(ghost.transform))
+                {
+                    do
+                    {
+                        newInput = Random.Range(0, 4);
+                    }
+                    while (oppositeDirection(ghostCon.lastInput, newInput));
+                    int last = newInput;
+
+                    //edge case
+                    if (ghostCon.transform.position.x == 0)
+                    {
+                        ghostCon.lastInput = 2;
+                    }
+                    else if (ghostCon.transform.position.x == 27)
+                    {
+                        ghostCon.lastInput = 0;
+                    }
+
+                    if (checkPosition(last, ghostCon))
+                    {
+                        switch (last)
+                        {
+                            case 0:
+                                moveLeft(ghostCon, animatorController);
+                                break;
+                            case 1:
+                                moveDown(ghostCon, animatorController);
+                                break;
+                            case 2:
+                                moveRight(ghostCon, animatorController);
+                                break;
+                            case 3:
+                                moveUp(ghostCon, animatorController);
+                                break;
+                        }
+                        ghostCon.lastInput = last;
+                    }
+                }
             }
         }
     }

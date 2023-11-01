@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -38,13 +39,17 @@ public class TimerController : MonoBehaviour
         {
             if(timer <= 3)
             {
-                ghost.recoveryState();
+                if(ghost.isRecovery != true)
+                {
+                    ghost.recoveryState();
+                }
             }
 
             timerText.text = timer.ToString();
             yield return new WaitForSeconds(1.0f);
             timer--;
         }
+        ghost.resetAnimation();
         //timer is at 0
         timerText.text = "";
         ghost.startMoving();
