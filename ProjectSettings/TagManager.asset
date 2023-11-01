@@ -11,6 +11,23 @@ TagManager:
   - Wall 5
   - Wall 6
   - Wall 7
+  - uiPellet
+  - rightTeleporter
+  - leftTeleporter
+  - Score
+  - Timer
+  - GhostTimer
+  - gamePellet
+  - powerPellet
+  - Cherry
+  - audioController
+  - GhostController
+  - Ghost
+  - livesController
+  - Countdown
+  - LevelMap
+  - PelletController
+  - Managers
   layers:
   - Default
   - TransparentFX
