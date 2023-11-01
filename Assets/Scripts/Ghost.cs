@@ -9,17 +9,22 @@ public class Ghost : MonoBehaviour
     public GameObject ghost;
     public int currentX;
     public int currentY;
-    private float startX;
-    private float startY;
+    public float startX;
+    public float startY;
     public Vector3 start;
     public int lastInput;
     public int currentInput;
+
+    public bool isScared = false;
+    public bool isRecovery = false;
+    public bool isNormal = false;
+    public bool isDead = false;
     // Start is called before the first frame update
     void Start()
     {
         start = ghost.transform.position;
-        startX = ghost.transform.position.x; 
-        startY = ghost.transform.position.y;
+        startX = currentX; 
+        startY = currentY;
     }
 
     // Update is called once per frame

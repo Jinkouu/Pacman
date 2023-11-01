@@ -49,7 +49,7 @@ public class TimerController : MonoBehaviour
             yield return new WaitForSeconds(1.0f);
             timer--;
         }
-        ghost.resetAnimation();
+        //ghost.resetAnimation();
         //timer is at 0
         timerText.text = "";
         ghost.startMoving();

@@ -66,11 +66,16 @@ public class AudioController : MonoBehaviour
     IEnumerator deadTimer()
     {
         source.Stop();
-        source.clip = clips[3];
-        source.Play();
+        //source.clip = clips[3];
+        //source.Play();
+        AudioSource newAudio = gameObject.AddComponent<AudioSource>();
+        newAudio.clip = clips[3];
+        newAudio.Play();
         yield return new WaitForSeconds(5f);
-        source.Stop();
-        source.clip = clips[1];
+        newAudio.Stop();
+        Destroy(newAudio);
+        //source.Stop();
+        //source.clip = clips[1];
         source.Play();
     }
 }

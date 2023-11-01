@@ -23,44 +23,89 @@ public class GhostController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isNormal)
+        foreach(var ghost in ghosts)
         {
-            if(isScared || isRecovery)
+            Ghost ghostCon = ghost.GetComponent<Ghost>();
+            if (ghostCon.isNormal)
             {
-                isScared = false;
-                isRecovery = false;
-                resetAnimation();
+                //Debug.Log("sdad");
+                if (ghostCon.isScared || ghostCon.isRecovery)
+                {
+                    //ghostCon.isScared = false;
+                    //ghostCon.isRecovery = false;
+                    resetAnimation(ghost);
+                }
+
+                if (ghost == ghosts[0])
+                {
+                    moveGhostOne(ghosts[0]);
+
+                }
+                else if (ghost == ghosts[1])
+                {
+                    moveGhostTwo(ghosts[1]);
+                }
+                else if (ghost == ghosts[2])
+                {
+                    moveGhostThree(ghosts[2]);
+                }
+                else if (ghost == ghosts[3])
+                {
+                    moveGhostFour(ghosts[3]);
+                }
             }
-            moveGhostOne(ghosts[0]);
-            moveGhostTwo(ghosts[1]);
-            moveGhostThree(ghosts[2]);
-            moveGhostFour(ghosts[3]);
-        }
-        else if(isScared)
-        {
-            foreach (var ghost in ghosts)
+            else if (ghostCon.isScared)
             {
                 Animator animatorController = ghost.GetComponent<Animator>();
                 animatorController.SetTrigger("Scared");
                 moveScaredAndRecovery(ghost);
             }
-        }
-        else if (isRecovery)
-        {
-            foreach (var ghost in ghosts)
+            else if (ghostCon.isRecovery)
             {
                 Animator animatorController = ghost.GetComponent<Animator>();
                 animatorController.SetTrigger("Recovery");
                 moveScaredAndRecovery(ghost);
             }
         }
+
+        //if(isNormal)
+        //{
+        //    if(isScared || isRecovery)
+        //    {
+        //        isScared = false;
+        //        isRecovery = false;
+        //        resetAnimation();
+        //    }
+        //    moveGhostOne(ghosts[0]);
+        //    moveGhostTwo(ghosts[1]);
+        //    moveGhostThree(ghosts[2]);
+        //    moveGhostFour(ghosts[3]);
+        //}
+        //else if(isScared)
+        //{
+        //    foreach (var ghost in ghosts)
+        //    {
+        //        Animator animatorController = ghost.GetComponent<Animator>();
+        //        animatorController.SetTrigger("Scared");
+        //        moveScaredAndRecovery(ghost);
+        //    }
+        //}
+        //else if (isRecovery)
+        //{
+        //    foreach (var ghost in ghosts)
+        //    {
+        //        Animator animatorController = ghost.GetComponent<Animator>();
+        //        animatorController.SetTrigger("Recovery");
+        //        moveScaredAndRecovery(ghost);
+        //    }
+        //}
     }
 
     public bool isScared = false;
 
     public void stopMoving()
     {
-        isNormal = false;
+        //isNormal = false;
         foreach (var ghost in ghosts)
         {
             try
@@ -80,16 +125,23 @@ public class GhostController : MonoBehaviour
     {
         //isScared = false;
         //isRecovery = false;
-        isNormal = true;
+        foreach(var ghost in ghosts)
+        {
+            Ghost ghostCon = ghost.GetComponent<Ghost>();
+            if (!ghostCon.isDead)
+            {
+                ghostCon.isNormal = true;
+            }
+        }
     }
 
-    public void resetAnimation()
+    public void resetAnimation(GameObject ghost)
     {
-        foreach (var ghost in ghosts) //fixes animation
-        {
+        //foreach (var ghost in ghosts) //fixes animation
+        //{
             Animator animatorController = ghost.GetComponent<Animator>();
             animatorController.SetTrigger("Reset");
-        }
+        //}
     }
 
     public void moveGhostOne(GameObject ghost)
@@ -259,7 +311,7 @@ public class GhostController : MonoBehaviour
             {
                 ghostCon.lastInput = 2;
             }
-            else if(ghostCon.transform.position.x == 27)
+            if(ghostCon.transform.position.x == 27)
             {
                 ghostCon.lastInput = 0;
             }
@@ -318,12 +370,10 @@ public class GhostController : MonoBehaviour
         animatorController.enabled = true;
         Ghost ghostCon = ghost.GetComponent<Ghost>();
 
-
         if (!tweener.TweenExists(ghost.transform))
         {
             //basically make it go top quandrants of the map in order
             float currentDist = Vector2.Distance(getEdge(quadrant), new Vector3(ghost.transform.position.x, ghost.transform.position.y, 0f));
-            Debug.Log(quadrant + currentDist);
             if (currentDist <= 1f)
             {
                 quadrant++;
@@ -348,18 +398,19 @@ public class GhostController : MonoBehaviour
                                 newDist = Vector2.Distance(getEdge(quadrant), new Vector3(ghost.transform.position.x - 1, ghost.transform.position.y, 0f));
                                 break;
                             case 1: //down
-                                newDist = Vector2.Distance(getEdge(quadrant), new Vector3(ghost.transform.position.x, ghost.transform.position.y + 1, 0f));
+                                newDist = Vector2.Distance(getEdge(quadrant), new Vector3(ghost.transform.position.x, ghost.transform.position.y - 1, 0f));
                                 break;
                             case 2: //right
                                 newDist = Vector2.Distance(getEdge(quadrant), new Vector3(ghost.transform.position.x + 1, ghost.transform.position.y, 0f));
                                 break;
                             case 3: //up
-                                newDist = Vector2.Distance(getEdge(quadrant), new Vector3(ghost.transform.position.x, ghost.transform.position.y - 1, 0f));
+                                newDist = Vector2.Distance(getEdge(quadrant), new Vector3(ghost.transform.position.x, ghost.transform.position.y + 1, 0f));
                                 break;
                         }
 
                         if (newDist <= currentDist)
                         {
+                            //Debug.Log(newDist +" "+ quadrant + currentDist);
                             valid.Add(i);
                         }
                     }
@@ -596,17 +647,37 @@ public class GhostController : MonoBehaviour
 
     public void scaredState()
     {
-        isNormal = false;
-        isScared = true;
-        isRecovery = false;
+        //isNormal = false;
+        //isScared = true;
+        //isRecovery = false;
+        foreach (var ghost in ghosts)
+        {
+            Ghost ghostCon = ghost.GetComponent<Ghost>();
+            if (!ghostCon.isDead)
+            {
+                ghostCon.isNormal = false;
+                ghostCon.isScared = true;
+                ghostCon.isRecovery = false;
+            }
+        }
     }
 
     public bool isRecovery = false;
     public void recoveryState()
     {
-        isScared = false;
-        isRecovery = true;
-        isNormal = false;
+        //isScared = false;
+        //isRecovery = true;
+        //isNormal = false;
+        foreach (var ghost in ghosts)
+        {
+            Ghost ghostCon = ghost.GetComponent<Ghost>();
+            if (!ghostCon.isDead)
+            {
+                ghostCon.isNormal = false;
+                ghostCon.isScared = false;
+                ghostCon.isRecovery = true;
+            }
+        }
     }
 
     public bool isNormal = false;
@@ -634,24 +705,30 @@ public class GhostController : MonoBehaviour
 
     IEnumerator ghostTimers(GameObject ghost)
     {
-        isRecovery = false;
-        isNormal = false;
-        isScared = false;
+        //isRecovery = false;
+        //isNormal = false;
+        //isScared = false;
         ghost.GetComponent<BoxCollider2D>().enabled = false;
         Animator animatorController = ghost.GetComponent<Animator>();
         Ghost ghostCon = ghost.GetComponent<Ghost>();
+        ghostCon.isNormal = false;
+        ghostCon.isDead = true;
+
         animatorController.SetTrigger("DeadUp");
         while (tweener.TweenExists(ghost.transform))
         {
             yield return new WaitForEndOfFrame();
         }
         tweener.AddTween(ghost.transform, ghost.transform.position, ghostCon.start, 5f);
-        yield return new WaitForSeconds(5f);
         ghostCon.currentX = (int)ghostCon.getStartX();
         ghostCon.currentY = (int)ghostCon.getStartY();
+        yield return new WaitForSeconds(5f);
         animatorController.SetTrigger("Up");
         ghost.GetComponent<BoxCollider2D>().enabled = true;
+
+        ghostCon.isDead = false;
+        ghostCon.isNormal = true;
         //isNormal = true;
-        startMoving();
+        //startMoving();
     }
 }
