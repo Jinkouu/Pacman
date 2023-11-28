@@ -22,3 +22,9 @@ This project was made with [Unity](https://unity.com) version 2022.2.6f1
   - [x] Ghost 4: Move clockwise around the map
 - [x] Level 1 functionality
 - [ ] Level 2 functionality
+
+## Screenshots
+
+<img src="./Img/Start-Screen.PNG" alt="Start Screen" align="center">
+
+<img src="./Img/gameScreen.PNG" alt="Game Screen" align="center">
